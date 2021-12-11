@@ -2,8 +2,8 @@
   <div class="singleGrp row mx-0">
     <ProfileImg class="col-2 m-auto" />
     <div class="col-8 d-flex flex-column justify-content-center align-items-start">
-      <h6>Physical Nash 2</h6>
-      <p class="m-0 font-14">+9309941438 : Shree Swami Samarth</p>
+      <h6>John Doe</h6>
+      <p class="m-0 font-14 text-truncate w-100">+1234567890 : Hii,how are you this is personal chat can </p>
     </div>
     <div class="col-2 notificationsParent">
         <p class="m-0 font-12">4:08 pm</p>
