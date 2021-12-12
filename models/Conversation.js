@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const ConversationSchema = new mongoose.Schema(
     {
-        member: {
-            type: Array
+        members: {
+            type: Array,
         }
     }
 );
 
-module.exports = ConversationSchema ;
+module.exports = mongoose.model("Conversation",ConversationSchema);

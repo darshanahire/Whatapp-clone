@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/darshanahire/Whatapp-clone#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mongoose": "^6.1.1"
+    "mongoose": "^6.1.1",
+    "socket.io": "^4.4.0"
   }
 }
