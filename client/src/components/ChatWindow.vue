@@ -33,28 +33,42 @@
               itThis is Left chat can you like itThis is Left chat can you like
               itThis is Left chat can you like it
             </p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span></p></div>
+            <div class="chatTime">
+              <p><span class="mx-1">10:01 am </span></p>
+            </div>
           </div>
         </div>
         <div class="rightChatParent px-3">
           <div class="tailOutIcon"></div>
           <div class="rightChat">
             <p>Hello, I am Right chat how Am i ?</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> <img src="@/assets/bluetick3.png" alt="" height="10"></p></div>
+            <div class="chatTime">
+              <p>
+                <span class="mx-1">10:01 am </span>
+                <img src="@/assets/bluetick3.png" alt="" height="10" />
+              </p>
+            </div>
           </div>
         </div>
         <div class="leftChatParent px-3">
           <div class="tailInIcon"></div>
           <div class="leftChat">
             <p>This is Left chat can you like it</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> </p></div>
+            <div class="chatTime">
+              <p><span class="mx-1">10:01 am </span></p>
+            </div>
           </div>
         </div>
         <div class="rightChatParent px-3">
           <div class="tailOutIcon"></div>
           <div class="rightChat">
             <p>Yes I like it you are more attractive that me</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> <img src="@/assets/bluetick3.png" alt="" height="10"></p></div>
+            <div class="chatTime">
+              <p>
+                <span class="mx-1">10:01 am </span>
+                <img src="@/assets/bluetick3.png" alt="" height="10" />
+              </p>
+            </div>
           </div>
         </div>
         <div class="leftChatParent px-3">
@@ -65,28 +79,42 @@
               itThis is Left chat can you like itThis is Left chat can you like
               itThis is Left chat can you like it
             </p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span></p></div>
+            <div class="chatTime">
+              <p><span class="mx-1">10:01 am </span></p>
+            </div>
           </div>
         </div>
         <div class="rightChatParent px-3">
           <div class="rightChat">
             <div class="tailOutIcon"></div>
             <p>Hello, I am Right chat how Am i ?</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> <img src="@/assets/bluetick3.png" alt="" height="10"></p></div>
+            <div class="chatTime">
+              <p>
+                <span class="mx-1">10:01 am </span>
+                <img src="@/assets/bluetick3.png" alt="" height="10" />
+              </p>
+            </div>
           </div>
         </div>
         <div class="leftChatParent px-3">
           <div class="tailInIcon"></div>
           <div class="leftChat">
             <p>This is Left chat can you like it</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> </p></div>
+            <div class="chatTime">
+              <p><span class="mx-1">10:01 am </span></p>
+            </div>
           </div>
         </div>
         <div class="rightChatParent px-3">
           <div class="tailOutIcon"></div>
           <div class="rightChat">
             <p>Yes I like it you are more attractive that me</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> <img src="@/assets/bluetick3.png" alt="" height="10"></p></div>
+            <div class="chatTime">
+              <p>
+                <span class="mx-1">10:01 am </span>
+                <img src="@/assets/bluetick3.png" alt="" height="10" />
+              </p>
+            </div>
           </div>
         </div>
 
@@ -94,7 +122,9 @@
           <div class="tailInIcon"></div>
           <div class="leftChat">
             <p>This is Left chat can you like it</p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> </p></div>
+            <div class="chatTime">
+              <p><span class="mx-1">10:01 am </span></p>
+            </div>
           </div>
         </div>
         <div class="rightChatParent px-3">
@@ -104,7 +134,12 @@
               Hii This is Left chat can you like This is Left chat can you
               likeThis is Left chat can you like This is Left chat can you like
             </p>
-            <div class="chatTime"><p> <span class="mx-1">10:01 am </span> <img src="@/assets/bluetick4.png" alt="" height="10"></p></div>
+            <div class="chatTime">
+              <p>
+                <span class="mx-1">10:01 am </span>
+                <img src="@/assets/bluetick4.png" alt="" height="10" />
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -120,10 +155,14 @@
             type="text"
             class="InputBar px-3"
             placeholder="Type a message"
+            v-model="msgInput"
           />
         </div>
         <div class="text-end">
-          <i class="fas fa-microphone fa-lg text-dark mx-3"></i>
+          <!-- <i class="fas fa-microphone fa-lg text-dark mx-3"></i> -->
+          <button class="sendMsgBtn" v-on:click="sendMsg">
+          <i class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -137,6 +176,16 @@ export default {
   components: {
     ProfileImg,
   },
+  data() {
+    return {
+      msgInput:null
+    };
+  },
+  methods:{
+    sendMsg(){
+    console.log(this.msgInput);
+    }
+  }
 };
 </script>
 
@@ -246,7 +295,7 @@ export default {
   font-size: 10px;
   color: rgb(101 101 101);
   text-align: end;
-  margin:0 2px;
+  margin: 0 2px;
 }
 .topEncrpMsg {
   display: flex;
@@ -271,10 +320,13 @@ export default {
   border-radius: 6px;
   font-size: 13px;
 }
-.fa-check-double{
+.fa-check-double {
   color: rgb(96, 200, 235);
 }
 .scroll-y {
   overflow: scroll;
+}
+.sendMsgBtn{
+  border: none;
 }
 </style>

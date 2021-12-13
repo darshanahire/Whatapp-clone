@@ -20,6 +20,12 @@ app.use(UserRouter, ConversationRouter);
 app.use(MessageRouter)
 
 
+app.use(express.static("client/dist"));
+const path = require("path");
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
+})
+
 app.listen(port,()=>{
     console.log("server listion on port : ",port);
 })
