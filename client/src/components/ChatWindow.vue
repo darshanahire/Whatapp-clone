@@ -184,6 +184,9 @@ export default {
   methods:{
     sendMsg(){
     console.log(this.msgInput);
+    if(this.msgInput != null){
+      
+    }
     }
   }
 };
