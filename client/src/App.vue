@@ -1,11 +1,15 @@
 <template>
   <div id="app">
+    <router-view />
     <div class="bgGreen"></div>
     <div class="mainContainer">
       <div class="mainWindow">
-        <UsersList />
-        <Chats  class="d-none"/>
-        <ChatWindow />
+        <UsersList v-if="$route.meta.ShowUserlistChats || $route.meta.ShowUserlistandChatWindow"/>
+        <Chats v-if="$route.meta.ShowUserlistChats"/>
+
+        <Login v-if="$route.meta.ShowLoginAndWelcome" />
+        <Welcome v-if="$route.meta.ShowLoginAndWelcome" />
+        <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" />
       </div>
     </div>
   </div>
@@ -15,13 +19,17 @@
 import UsersList from "./components/UsersList.vue";
 import Chats from "./components/Chats";
 import ChatWindow from "./components/ChatWindow";
+import Login from "./components/Login";
+import Welcome from "./components/Welcome";
 
 export default {
   name: "App",
   components: {
     UsersList,
     Chats,
-    ChatWindow
+    ChatWindow,
+    Login,
+    Welcome
   },
 };
 </script>

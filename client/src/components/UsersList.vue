@@ -2,7 +2,8 @@
   <div class="usersList">
     <div class="userData row mx-0">
       <div class="col-4 d-flex justify-content-start align-items-center">
-        <ProfileImg  />
+        <router-link to="/login"><ProfileImg  /></router-link>
+        
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
@@ -32,6 +33,7 @@
     </div>
     <div class="lists mt-1">
       <hr class="hr" />
+      <router-link to="/user/id">
       <SingleGroup />
       <hr class="hr" />
       <SingleGroup />
@@ -51,6 +53,7 @@
       <SingleGroup />
       <hr class="hr" />
       <SingleGroup />
+      </router-link>
       <hr class="hr" />
     </div>
   </div>
@@ -69,6 +72,10 @@ export default {
 </script>
 
 <style >
+a{
+  color: black !important;
+  text-decoration: none;
+}
 .usersList {
   overflow: hidden;
   width: 30%;
