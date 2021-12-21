@@ -10,21 +10,15 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-      {
+    {
         path: '/',
         name: 'ChatWindow',
         meta: {
             ShowUserlistChats: true
-        }      },
-    // {
-    //     path: '/users',
-    //     name: 'UsersList',
-    //     meta: {
-    //         ShowUserlistChats: true
-    //     }
-    // },
+        }
+    },
     {
-        path: '/user/id',
+        path: '/user/:id',
         name: 'UsersList',
         meta: {
             ShowUserlistandChatWindow: true

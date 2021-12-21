@@ -1,24 +1,35 @@
 <template>
+<router-link :to='`/user/${id}`'>
   <div class="singleGrp row mx-0">
+    <hr class="hr" />
     <ProfileImg class="col-2 m-auto" />
     <div class="col-8 d-flex flex-column justify-content-center align-items-start">
-      <h6>John Doe</h6>
-      <p class="m-0 font-14 text-truncate w-100">+1234567890 : Hii,how are you this is personal chat can </p>
+      <h6>{{user.name}}</h6>
+      <p class="m-0 font-14 text-truncate w-100">Hii, how are you this is personal chat click here to see that </p>
     </div>
     <div class="col-2 notificationsParent">
         <p class="m-0 font-12">4:08 pm</p>
         <div class="notifications">2</div>
     </div>
   </div>
+  </router-link>
 </template>
 
 <script>
 import ProfileImg from "./Profileimg";
 export default {
   name: "SingleGroup",
+  props:{
+    user :Object,
+    id:String
+  },
   components: {
     ProfileImg,
   },
+  created(){
+    // console.log(this.user);
+    
+  }
 };
 </script>
 

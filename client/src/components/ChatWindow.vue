@@ -6,7 +6,7 @@
           <ProfileImg />
         </div>
         <div class="col-8 text-start">
-          <h6 class="m-0">John Doe</h6>
+          <h6 class="m-0">John Doe{{this.$route.params}}</h6>
           <!-- <p class="m-0 font-14">Click here to group info</p> -->
           <p class="m-0 font-14">online</p>
         </div>
@@ -161,7 +161,7 @@
         <div class="text-end">
           <!-- <i class="fas fa-microphone fa-lg text-dark mx-3"></i> -->
           <button class="sendMsgBtn" v-on:click="sendMsg">
-          <i class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
+            <i class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
           </button>
         </div>
       </div>
@@ -171,25 +171,34 @@
 
 <script>
 import ProfileImg from "./Profileimg";
+import http from"../services/https.vue"
 export default {
   name: "ChatWindow",
   components: {
     ProfileImg,
   },
+   mounted: async function (){
+    const payload=this.$route.params;
+    const id=payload.id
+    // console.log(id);
+    
+    this.user = await http.getUser(id);
+    // console.log(this.user);
+      },
   data() {
     return {
-      msgInput:null
+      msgInput: null,
+       user:{}
     };
   },
-  methods:{
-    sendMsg(){
-    console.log(this.msgInput);
-    if(this.msgInput != null){
+  methods: {
+    sendMsg() {
       console.log(this.msgInput);
-      
-    }
-    }
-  }
+      if (this.msgInput != null) {
+        console.log(this.msgInput);
+      }
+    },
+  },
 };
 </script>
 
@@ -330,7 +339,7 @@ export default {
 .scroll-y {
   overflow: scroll;
 }
-.sendMsgBtn{
+.sendMsgBtn {
   border: none;
 }
 </style>

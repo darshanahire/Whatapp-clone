@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="h-100">
-      <div class="profilePhotoSelector my-4 rounded-circle mx-auto d-flex justify-content-center align-items-center"> <img class="" src="@/assets/avatar.jpg" alt="img1" width="170">
+      <div class="profilePhotoSelector my-4 rounded-circle mx-auto d-flex justify-content-center align-items-center"> <img class="" src="@/assets/avatar1.jpg" alt="img1" width="170">
 </div>
       <div class="nameChange my-3 bg-white text-start py-2">
         <p class="mx-4 font-14 greenColor">Your Name</p>
@@ -17,7 +17,7 @@
           <input
           class="font-14 text-dark"
             type="text"
-            v-model="yourName"
+            v-model="userData.name"
             placeholder="Enter your Name"
             @click="AddBorderBottom"
           />
@@ -36,7 +36,7 @@
           <input
            class="font-14 text-dark"
             type="text"
-            v-model="about"
+            v-model="userData.about"
             placeholder="Enter About"
             @click="AddBorderBottom"
           />
@@ -49,7 +49,7 @@
            class="font-14 text-dark"
             type="email"
             placeholder="Enter Email"
-            v-model="email"
+            v-model="userData.email"
             @click="AddBorderBottom"
           />
         </div>
@@ -60,7 +60,7 @@
           <input
            class="font-14 text-dark"
             type="password"
-            v-model="password"
+            v-model="userData.password"
             placeholder="Enter Password"
             @click="AddBorderBottom"
           />
@@ -75,7 +75,7 @@
   <p>Read our <span class="text-cyan">Privacy Policy</span>.Tap "Agree and continue" to accept the <span class="text-cyan">Terms of Service.</span></p>
 </div>
 <div class="text-center">
-    <button class="agreeNContinueBtn" @click="getData">AGREE AND CONTINUE</button>
+    <button class="agreeNContinueBtn" @click="CreateAccount">AGREE AND CONTINUE</button>
 </div>
   <div class="mt-auto font-14">
       <p>from</p>
@@ -88,22 +88,31 @@
 </template>
 
 <script>
+import http from '../services/https.vue'
 export default {
   data() {
     return {
-      yourName : "",
+      userData :{
+      name : "",
       about : "",
       email : "",
       password : ""
+      }
     };
   },
   methods: {
     AddBorderBottom(e) {
       e.target.style.borderBottom = "2px solid #00bfa5";
     },
-    getData(){
-      console.log(this.yourName);
-      
+    async CreateAccount(){
+      try{
+       await http.CreateAccount(this.userData);
+       alert("Account Created")
+      }
+      catch(e){
+        alert("Email is already register")
+        
+      }
     }
   },
 };

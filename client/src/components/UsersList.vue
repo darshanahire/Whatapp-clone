@@ -2,8 +2,7 @@
   <div class="usersList">
     <div class="userData row mx-0">
       <div class="col-4 d-flex justify-content-start align-items-center">
-        <router-link to="/login"><ProfileImg  /></router-link>
-        
+        <router-link to="/login"><ProfileImg /></router-link>
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
@@ -19,8 +18,8 @@
           </div>
         </div>
         <div class="col-10 text-start">
-          <p class=" m-0">Get notified of new messages</p>
-          <p class="font-14 m-0">Turn on desktop notifications </p>
+          <p class="m-0">Get notified of new messages</p>
+          <p class="font-14 m-0">Turn on desktop notifications</p>
         </div>
       </div>
     </div>
@@ -28,33 +27,19 @@
       <div class="searchChild">
         <i class="fas fa-search mx-3 colorDark"></i>
         <!-- <input type="text" class="searchBar" /> -->
-      <input type="text" class="searchBar mx-3" placeholder="Search or start new chat"/>
+        <input
+          type="text"
+          class="searchBar mx-3"
+          placeholder="Search or start new chat"
+        />
       </div>
     </div>
     <div class="lists mt-1">
       <hr class="hr" />
-      <router-link to="/user/id">
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      <hr class="hr" />
-      <SingleGroup />
-      </router-link>
-      <hr class="hr" />
+      <span v-for="(user, id) in AllUsers" :key="id">
+          <SingleGroup :user="user" :id="user._id"/>
+          <hr class="hr" />
+      </span>
     </div>
   </div>
 </template>
@@ -62,17 +47,26 @@
 import SingleGroup from "./SingleGroup";
 import ProfileImg from "./Profileimg";
 
+import http from "../services/https.vue";
 export default {
   name: "UsersList",
   components: {
     SingleGroup,
     ProfileImg,
   },
+  data() {
+    return {
+      AllUsers: [],
+    };
+  },
+  async created() {
+    this.AllUsers = await http.getAllUsers();
+  },
 };
 </script>
 
 <style >
-a{
+a {
   color: black !important;
   text-decoration: none;
 }
@@ -96,7 +90,7 @@ a{
   height: 90px;
   background: #9de1fe;
 }
-.desktopNotify{
+.desktopNotify {
   height: 45px;
   width: 45px;
   display: flex;
@@ -134,6 +128,7 @@ a{
   height: 75%;
   background: white;
   overflow: scroll;
+  padding-bottom: 20px;
 }
 ::-webkit-scrollbar {
   display: none;
