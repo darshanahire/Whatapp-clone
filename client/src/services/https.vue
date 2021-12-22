@@ -15,9 +15,27 @@ async getAllUsers (){
 },
 
 async getUser (id){
-    const data = await axios.post(this.baseUrl+'/getUser',id);  
-       console.log(id);
-        
+    const data = await axios.post(this.baseUrl+'/getUserdata',{id});  
+    return data.data;
+},
+
+async newConversation(payload){
+    const data = await axios.post(this.baseUrl+'/conversations',payload);  
+    return data;
+},
+
+async sendMsg(payload){
+    const data = await axios.post(this.baseUrl+'/messages',payload);  
+    return data;
+},
+
+async getConversations(){
+    const data = await axios.get(this.baseUrl+'/conversations/:userId');  
+    return data;
+},
+
+async getMessages(payload){
+    const data = await axios.post(this.baseUrl+'/getMessages',{ payload });  
     return data;
 }
 

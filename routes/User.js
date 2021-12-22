@@ -26,22 +26,19 @@ router.post('/signup', async (req, res) => {
             res.status(500).json(err);
         }
     }
-})
+});
 
 
-router.post('/getUser', async (req, res) => {
-    // const id  = req.body.id;
-    console.log(req.body);
-    
-    // try {
-    //     await User.findOne({ _id }).then((data) => {
-    //         res.status(200).json(data);
-    //     })
-    // } catch (err) {
-    //     console.log(err);
-    //     res.status(500).json(err);
-
-    // }
+router.post('/getUserdata', async (req, res) => {
+    const _id  = req.body.id;
+    try {
+        await User.findOne({ _id }).then((data) => {
+            res.status(200).json(data);
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 })
 
 router.post('/login', async (req, res) => {

@@ -4,15 +4,27 @@ const router = Router();
 
 // add conversation
 router.post('/conversations', async (req, res) => {
-    const newConversation = new Conversation({
-        members: [req.body.senderId, req.body.receiverId]
-    });
-    try {
-        const savedConversation = await newConversation.save();
-        res.status(200).json(savedConversation);
-    } catch (err) {
-        res.status(500).json(err);
-    }
+    let sender = req.body.senderId;
+    let receiver = req.body.receiverId;
+    await Conversation.findOne({ members: { $in: [ receiver] } }).then(async (data) => {
+        if (data) {
+            res.status(200).json(data);
+        }
+        else {
+            const newConversation = new Conversation({
+                members: [sender, receiver]
+            });
+            try {
+                const Conversation = await newConversation.save();
+                res.status(200).json(Conversation);
+            } catch (err) {
+                res.status(500).json(err);
+            }
+        }
+
+    }).catch((err) => {
+        res.status(500).json(err)
+    })
 })
 
 

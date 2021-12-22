@@ -1,4 +1,4 @@
-<template>
+<template >
   <div class="chatwindowparent">
     <div class="userTopData">
       <div class="row w-100 align-items-center">
@@ -6,7 +6,7 @@
           <ProfileImg />
         </div>
         <div class="col-8 text-start">
-          <h6 class="m-0">John Doe{{this.$route.params}}</h6>
+          <h6 class="m-0">{{ user.name }}</h6>
           <!-- <p class="m-0 font-14">Click here to group info</p> -->
           <p class="m-0 font-14">online</p>
         </div>
@@ -24,124 +24,16 @@
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
       </div>
-      <div class="container h-100 w-80 py-3">
-        <div class="leftChatParent px-3">
-          <div class="tailInIcon"></div>
-          <div class="leftChat">
-            <p>
-              This is Left chat can you like itThis is Left chat can you like
-              itThis is Left chat can you like itThis is Left chat can you like
-              itThis is Left chat can you like it
-            </p>
-            <div class="chatTime">
-              <p><span class="mx-1">10:01 am </span></p>
-            </div>
-          </div>
-        </div>
-        <div class="rightChatParent px-3">
-          <div class="tailOutIcon"></div>
-          <div class="rightChat">
-            <p>Hello, I am Right chat how Am i ?</p>
-            <div class="chatTime">
-              <p>
-                <span class="mx-1">10:01 am </span>
-                <img src="@/assets/bluetick3.png" alt="" height="10" />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="leftChatParent px-3">
-          <div class="tailInIcon"></div>
-          <div class="leftChat">
-            <p>This is Left chat can you like it</p>
-            <div class="chatTime">
-              <p><span class="mx-1">10:01 am </span></p>
-            </div>
-          </div>
-        </div>
-        <div class="rightChatParent px-3">
-          <div class="tailOutIcon"></div>
-          <div class="rightChat">
-            <p>Yes I like it you are more attractive that me</p>
-            <div class="chatTime">
-              <p>
-                <span class="mx-1">10:01 am </span>
-                <img src="@/assets/bluetick3.png" alt="" height="10" />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="leftChatParent px-3">
-          <div class="tailInIcon"></div>
-          <div class="leftChat">
-            <p>
-              This is Left chat can you like itThis is Left chat can you like
-              itThis is Left chat can you like itThis is Left chat can you like
-              itThis is Left chat can you like it
-            </p>
-            <div class="chatTime">
-              <p><span class="mx-1">10:01 am </span></p>
-            </div>
-          </div>
-        </div>
-        <div class="rightChatParent px-3">
-          <div class="rightChat">
-            <div class="tailOutIcon"></div>
-            <p>Hello, I am Right chat how Am i ?</p>
-            <div class="chatTime">
-              <p>
-                <span class="mx-1">10:01 am </span>
-                <img src="@/assets/bluetick3.png" alt="" height="10" />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="leftChatParent px-3">
-          <div class="tailInIcon"></div>
-          <div class="leftChat">
-            <p>This is Left chat can you like it</p>
-            <div class="chatTime">
-              <p><span class="mx-1">10:01 am </span></p>
-            </div>
-          </div>
-        </div>
-        <div class="rightChatParent px-3">
-          <div class="tailOutIcon"></div>
-          <div class="rightChat">
-            <p>Yes I like it you are more attractive that me</p>
-            <div class="chatTime">
-              <p>
-                <span class="mx-1">10:01 am </span>
-                <img src="@/assets/bluetick3.png" alt="" height="10" />
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="leftChatParent px-3">
-          <div class="tailInIcon"></div>
-          <div class="leftChat">
-            <p>This is Left chat can you like it</p>
-            <div class="chatTime">
-              <p><span class="mx-1">10:01 am </span></p>
-            </div>
-          </div>
-        </div>
-        <div class="rightChatParent px-3">
-          <div class="tailOutIcon"></div>
-          <div class="rightChat">
-            <p>
-              Hii This is Left chat can you like This is Left chat can you
-              likeThis is Left chat can you like This is Left chat can you like
-            </p>
-            <div class="chatTime">
-              <p>
-                <span class="mx-1">10:01 am </span>
-                <img src="@/assets/bluetick4.png" alt="" height="10" />
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="container h-100 w-80 py-3" >
+        <span v-for="(msg, id) in Messages" :key="id" v-chat-scroll>
+          <span v-if="msg.sender!==me">
+            <LeftChat :msg="msg.text" :time="msg.createdAt"/>
+          </span>
+          <span v-else>
+            <RightChat :msg="msg.text" :time="msg.createdAt"/>
+          </span>
+        </span>
+        <div id="bottomDiv"></div>
       </div>
     </div>
     <div class="chatingdatadiv">
@@ -171,31 +63,92 @@
 
 <script>
 import ProfileImg from "./Profileimg";
-import http from"../services/https.vue"
+import http from "../services/https.vue";
+import LeftChat from "../helperComp/LeftChat.vue";
+import RightChat from "../helperComp/RightChat.vue";
 export default {
   name: "ChatWindow",
   components: {
     ProfileImg,
+    LeftChat,
+    RightChat,
   },
-   mounted: async function (){
-    const payload=this.$route.params;
-    const id=payload.id
-    // console.log(id);
-    
-    this.user = await http.getUser(id);
-    // console.log(this.user);
-      },
+  created() {
+    this.you = this.$route.params.id;
+    this.changeUser(this.you);
+    this.me = localStorage.getItem("Wuser");
+    const payload = { senderId: this.me, receiverId: this.you };
+    http
+      .newConversation(payload)
+      .then(async (data) => {
+        this.conversationId = data.data._id;
+        http.getMessages(this.conversationId).then(async(data) => {
+          this.Messages = data.data;
+          // console.log(this.Messages);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   data() {
     return {
       msgInput: null,
-       user:{}
+      user: {},
+      payload: "",
+      Messages: [],
+      me: "",
+      you: "",
+      conversationId: "",
     };
+  },
+  watch: {
+    $route() {
+      this.you = this.$route.params.id;
+      this.changeUser(this.you);
+    },
   },
   methods: {
     sendMsg() {
       console.log(this.msgInput);
       if (this.msgInput != null) {
-        console.log(this.msgInput);
+        const payload = {
+          conversationId: this.conversationId,
+          sender: this.me,
+          text: this.msgInput,
+        };
+        http
+          .sendMsg(payload)
+          .then(async () => {
+            this.Messages=[...this.Messages,payload]
+            this.msgInput = "";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    async changeUser(id) {
+      try {
+        this.user = await http.getUser(id);
+        const payload = {
+          senderId: this.me,
+          receiverId: this.you,
+        };
+        http
+          .newConversation(payload)
+          .then(async (data) => {
+            this.conversationId = data.data._id;
+            http.getMessages(this.conversationId).then(async(data) => {
+              this.Messages = data.data;
+              console.log(this.Messages);
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (err) {
+        console.log(err);
       }
     },
   },
@@ -246,70 +199,6 @@ export default {
   width: 80%;
 }
 
-.leftChat {
-  height: auto;
-  width: auto;
-  max-width: 50%;
-  padding: 8px 10px 3px;
-  border-radius: 8px;
-  background: white;
-  text-align: start;
-  margin: 6px 0;
-  font-size: 14px;
-  z-index: 5;
-}
-.rightChat {
-  height: auto;
-  width: auto;
-  max-width: 50%;
-  padding: 8px 10px 3px;
-  border-radius: 8px;
-  background: #dcf8c6;
-  text-align: start;
-  margin: 6px 0;
-  font-size: 14px;
-  z-index: 5;
-}
-.leftChatParent {
-  display: flex;
-  justify-content: start;
-  position: relative;
-}
-.rightChatParent {
-  display: flex;
-  justify-content: end;
-  position: relative;
-}
-.tailInIcon {
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  position: absolute;
-  border-top: 16px solid #ffff;
-  z-index: 3;
-  left: 4px;
-  top: 6px;
-  border-radius: 5px;
-}
-.tailOutIcon {
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  position: absolute;
-  border-top: 16px solid #dcf8c6;
-  z-index: 3;
-  right: 4px;
-  top: 6px;
-  border-radius: 5px;
-}
-.chatTime {
-  font-size: 10px;
-  color: rgb(101 101 101);
-  text-align: end;
-  margin: 0 2px;
-}
 .topEncrpMsg {
   display: flex;
   justify-content: center;

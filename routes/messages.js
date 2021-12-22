@@ -14,10 +14,9 @@ router.post("/messages", async (req, res) => {
 })
 
 // get massages
-router.get("/messages/:conversationId", async(req,res)=>{
-    
+router.post("/getMessages", async(req,res)=>{ 
 try{
-    await Message.find({conversationId : req.params.conversationId}).then((data)=>{
+    await Message.find({conversationId : req.body.payload}).then((data)=>{
         res.status(200).json(data)
     })
 }catch(err){

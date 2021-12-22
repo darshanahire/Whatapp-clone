@@ -37,7 +37,7 @@
     <div class="lists mt-1">
       <hr class="hr" />
       <span v-for="(user, id) in AllUsers" :key="id">
-          <SingleGroup :user="user" :id="user._id"/>
+          <SingleGroup v-if="user._id!==me" :user="user" :id="user._id" :key="id"/>
           <hr class="hr" />
       </span>
     </div>
@@ -57,10 +57,12 @@ export default {
   data() {
     return {
       AllUsers: [],
+      me:""
     };
   },
   async created() {
     this.AllUsers = await http.getAllUsers();
+    this.me = localStorage.getItem("Wuser");
   },
 };
 </script>
