@@ -14,6 +14,7 @@ router.post("/messages", async (req, res) => {
 })
 
 // get massages
+
 router.post("/getMessages", async(req,res)=>{ 
 try{
     await Message.find({conversationId : req.body.payload}).then((data)=>{
@@ -24,4 +25,4 @@ try{
 }
 })
 
-module.exports = router;
+module.exports =  router;

@@ -24,13 +24,13 @@
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
       </div>
-      <div class="container h-100 w-80 py-3" >
-        <span v-for="(msg, id) in Messages" :key="id" v-chat-scroll>
-          <span v-if="msg.sender!==me">
-            <LeftChat :msg="msg.text" :time="msg.createdAt"/>
+      <div class="container h-100 w-80 py-3">
+        <span v-for="(msg, id) in Messages" :key="id">
+          <span v-if="msg.sender !== me">
+            <LeftChat :msg="msg.text" :time="msg.createdAt" />
           </span>
           <span v-else>
-            <RightChat :msg="msg.text" :time="msg.createdAt"/>
+            <RightChat :msg="msg.text" :time="msg.createdAt" />
           </span>
         </span>
         <div id="bottomDiv"></div>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+const { io } = require("socket.io-client");
 import ProfileImg from "./Profileimg";
 import http from "../services/https.vue";
 import LeftChat from "../helperComp/LeftChat.vue";
@@ -73,7 +74,9 @@ export default {
     LeftChat,
     RightChat,
   },
+
   created() {
+    this.socket = io("ws://localhost:8900");
     this.you = this.$route.params.id;
     this.changeUser(this.you);
     this.me = localStorage.getItem("Wuser");
@@ -82,7 +85,7 @@ export default {
       .newConversation(payload)
       .then(async (data) => {
         this.conversationId = data.data._id;
-        http.getMessages(this.conversationId).then(async(data) => {
+        http.getMessages(this.conversationId).then(async (data) => {
           this.Messages = data.data;
           // console.log(this.Messages);
         });
@@ -90,6 +93,24 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+
+    this.socket.emit("adduser", this.me);
+
+    
+    // console.log(this.socket);
+    // this.socket.on("getusers", (users) => {
+    //   console.log("users", users);
+    // });
+    this.socket.on("getMessage", (data) => {
+      console.log(data.text);
+
+      const payload = {
+        conversationId: "temp",
+        sender: data.senderId,
+        text: data.text,
+      };
+      this.Messages = [...this.Messages, payload];
+    });
   },
   data() {
     return {
@@ -100,6 +121,7 @@ export default {
       me: "",
       you: "",
       conversationId: "",
+      socket: "",
     };
   },
   watch: {
@@ -110,8 +132,15 @@ export default {
   },
   methods: {
     sendMsg() {
-      console.log(this.msgInput);
+      // console.log(this.msgInput);
       if (this.msgInput != null) {
+        this.socket.emit("sendMessage", {
+          conversationId: this.conversationId,
+          senderId: this.me,
+          receiverId: this.you,
+          text: this.msgInput,
+        });
+
         const payload = {
           conversationId: this.conversationId,
           sender: this.me,
@@ -120,7 +149,7 @@ export default {
         http
           .sendMsg(payload)
           .then(async () => {
-            this.Messages=[...this.Messages,payload]
+            this.Messages = [...this.Messages, payload];
             this.msgInput = "";
           })
           .catch((err) => {
@@ -139,9 +168,9 @@ export default {
           .newConversation(payload)
           .then(async (data) => {
             this.conversationId = data.data._id;
-            http.getMessages(this.conversationId).then(async(data) => {
+            http.getMessages(this.conversationId).then(async (data) => {
               this.Messages = data.data;
-              console.log(this.Messages);
+              // console.log(this.Messages);
             });
           })
           .catch((err) => {
