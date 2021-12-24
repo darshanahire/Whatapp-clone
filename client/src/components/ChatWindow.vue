@@ -24,16 +24,29 @@
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
       </div>
-      <div class="container h-100 w-80 py-3">
+      <div class="container h-80 w-80 py-3">
         <span v-for="(msg, id) in Messages" :key="id">
-          <span v-if="msg.sender !== me">
-            <LeftChat :msg="msg.text" :time="msg.createdAt" />
-          </span>
-          <span v-else>
-            <RightChat :msg="msg.text" :time="msg.createdAt" />
+          <span v-if="conversationId === msg.conversationId">
+            <div v-if="msg.sender === you">
+              <LeftChat
+                :msg="msg.text"
+                :time="msg.createdAt"
+                :prevSender="returnPrev(id)"
+                :currSender="you"
+              />
+            </div>
+            <div  v-else-if="msg.sender===me">
+              <RightChat
+                :msg="msg.text"
+                :time="msg.createdAt"
+                :prevSender="returnPrev(id)"
+                :currSender="me"
+              />
+            </div>
+            <!-- <div v-else>{{msg.sender}}{{msg.text}}</div> -->
           </span>
         </span>
-        <div id="bottomDiv"></div>
+        <div id="bottomDiv" class="mt-auto" ref="Ref"></div>
       </div>
     </div>
     <div class="chatingdatadiv">
@@ -74,12 +87,7 @@ export default {
     LeftChat,
     RightChat,
   },
-
-  created() {
-    this.socket = io("ws://localhost:8900");
-    this.you = this.$route.params.id;
-    this.changeUser(this.you);
-    this.me = localStorage.getItem("Wuser");
+  mounted: function () {
     const payload = { senderId: this.me, receiverId: this.you };
     http
       .newConversation(payload)
@@ -93,24 +101,31 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    this.socket.on("getMessage", (data) => {
+      this.socketMsg = data.text;
+      const payload = {
+        conversationId: this.conversationId,
+        sender: data.senderId,
+        text: this.socketMsg,
+      };
+      this.Messages = [...this.Messages, payload];
+    });
+  },
+  updated() {
+    this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
+  },
+  created() {
+    this.socket = io("ws://localhost:8900");
+    this.you = this.$route.params.id;
+    this.changeUser(this.you);
+    this.me = localStorage.getItem("Wuser");
 
     this.socket.emit("adduser", this.me);
 
-    
     // console.log(this.socket);
     // this.socket.on("getusers", (users) => {
     //   console.log("users", users);
     // });
-    this.socket.on("getMessage", (data) => {
-      console.log(data.text);
-
-      const payload = {
-        conversationId: "temp",
-        sender: data.senderId,
-        text: data.text,
-      };
-      this.Messages = [...this.Messages, payload];
-    });
   },
   data() {
     return {
@@ -122,6 +137,9 @@ export default {
       you: "",
       conversationId: "",
       socket: "",
+      socketMsg: "",
+      prevSender: "",
+      currSender: "",
     };
   },
   watch: {
@@ -133,7 +151,7 @@ export default {
   methods: {
     sendMsg() {
       // console.log(this.msgInput);
-      if (this.msgInput != null) {
+      if (this.msgInput !== "" && this.msgInput !== null) {
         this.socket.emit("sendMessage", {
           conversationId: this.conversationId,
           senderId: this.me,
@@ -162,7 +180,7 @@ export default {
         this.user = await http.getUser(id);
         const payload = {
           senderId: this.me,
-          receiverId: this.you,
+          receiverId: this.$route.params.id,
         };
         http
           .newConversation(payload)
@@ -178,6 +196,13 @@ export default {
           });
       } catch (err) {
         console.log(err);
+      }
+    },
+    returnPrev(id) {
+      if (id == 0) {
+        return "darshan";
+      } else {
+        return this.Messages[id - 1].sender;
       }
     },
   },

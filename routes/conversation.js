@@ -6,7 +6,7 @@ const router = Router();
 router.post('/conversations', async (req, res) => {
     let sender = req.body.senderId;
     let receiver = req.body.receiverId;
-    await Conversation.findOne({ members: { $in: [ receiver] } }).then(async (data) => {
+    await Conversation.findOne({$and: [{ members: { $in: [ receiver ] } },{ members: { $in: [ sender ] } }]}).then(async (data) => {
         if (data) {
             res.status(200).json(data);
         }

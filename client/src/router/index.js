@@ -25,6 +25,13 @@ const routes = [
         }
     },
     {
+        path: '/signup',
+        name: "SignUp",
+        meta: {
+            ShowSignUpAndWelcome: true
+        }
+    },
+    {
         path: '/login',
         name: "Login",
         meta: {

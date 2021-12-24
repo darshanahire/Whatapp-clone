@@ -7,9 +7,10 @@
         <UsersList v-if="$route.meta.ShowUserlistChats || $route.meta.ShowUserlistandChatWindow"/>
         <Chats v-if="$route.meta.ShowUserlistChats"/>
 
-        <Login v-if="$route.meta.ShowLoginAndWelcome" />
+        <SignUp v-if="$route.meta.ShowSignUpAndWelcome" />
         <Welcome v-if="$route.meta.ShowLoginAndWelcome" />
         <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" />
+        <Login v-if="$route.meta.ShowLoginAndWelcome" />
       </div>
     </div>
   </div>
@@ -20,6 +21,7 @@ import UsersList from "./components/UsersList.vue";
 import Chats from "./components/Chats";
 import ChatWindow from "./components/ChatWindow";
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import Welcome from "./components/Welcome";
 
 export default {
@@ -29,7 +31,8 @@ export default {
     Chats,
     ChatWindow,
     Login,
-    Welcome
+    Welcome,
+    SignUp
   },
 };
 </script>

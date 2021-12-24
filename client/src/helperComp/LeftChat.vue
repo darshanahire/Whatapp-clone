@@ -1,6 +1,6 @@
 <template>
   <div class="leftChatParent px-3">
-    <div class="tailInIcon"></div>
+    <div v-if="prevSender != currSender" class="tailInIcon"></div>
     <div class="leftChat">
       <p>
         {{ msg }}
@@ -14,13 +14,15 @@
 </template>
 
 <script>
-import Vue from 'vue'
-Vue.use(require('vue-moment'));
+import Vue from "vue";
+Vue.use(require("vue-moment"));
 export default {
   name: "LeftChat",
   props: {
     msg: String,
     time: String,
+    prevSender: String,
+    currSender: String,
   },
   components: {
     // timeAgo,
@@ -58,7 +60,7 @@ export default {
   top: 6px;
   border-radius: 5px;
 }
-.chatTime {
+.chatTime span {
   font-size: 10px;
   color: rgb(101 101 101);
   text-align: end;

@@ -2,10 +2,15 @@
 import axios from 'axios';
 export default {
 name:"https",
-baseUrl: "http://localhost:5000",
+baseUrl: "",
 
 async CreateAccount (UserData){
     const data = await axios.post(this.baseUrl+'/signup',UserData);        
+    return data;
+},
+
+async handdleLogin (UserData){
+    const data = await axios.post(this.baseUrl+'/login',UserData);        
     return data;
 },
 
