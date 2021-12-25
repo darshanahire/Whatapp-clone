@@ -25,13 +25,12 @@ name : "Chats",
 <style>
 .img1Parent{
   width: 70%;
-  display: none;
   flex-direction: column;
 }
 .img1{
   margin: 0 auto;
   margin-top: 103px;
-  /* overflow: hidden; */
+  overflow: hidden;
   height: 260px;
   width: 500px;
 }

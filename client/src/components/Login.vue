@@ -38,7 +38,7 @@
       </div>
     </div>
     </div>
-    <div class="img1Parent d-flex ">
+    <div class="img1Parent d-flex welcomeWidow">
   <h2 class=" welcomeHeading greenColor bolder">Welcome To WhatsApp</h2>
 <img class="welcomeImg mx-auto" src="@/assets/welcome.png" alt="img1">
 <div class="ppInfo mt-5 mb-3 font-14 ">

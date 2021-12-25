@@ -40,4 +40,16 @@ router.get('/conversations/:userId', async (req, res) => {
     }
 })
 
+router.post('/getfriends', async (req, res) => {
+    const {_id} =req.body;
+    try {
+        await Conversation.find({  "members.0" :_id}).then((data) => {
+            res.status(200).json(data);
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+})
+
 module.exports = router;

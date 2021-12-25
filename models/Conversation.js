@@ -4,6 +4,10 @@ const ConversationSchema = new mongoose.Schema(
     {
         members: {
             type: Array,
+        },
+        unseenMsg:{
+            type: Number,
+            default:0
         }
     }
 );

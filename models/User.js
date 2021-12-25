@@ -15,6 +15,9 @@ const User = new mongoose.Schema(
        password :{
            type : String,
            minlength : 4
+       },
+       friends:{
+           type : Array,
        }
    }
 );

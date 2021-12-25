@@ -4,13 +4,12 @@
     <div class="bgGreen"></div>
     <div class="mainContainer">
       <div class="mainWindow">
-        <UsersList v-if="$route.meta.ShowUserlistChats || $route.meta.ShowUserlistandChatWindow"/>
-        <Chats v-if="$route.meta.ShowUserlistChats"/>
-
+        <UsersList v-if="$route.meta.ShowUserlistChats || $route.meta.ShowUserlistandChatWindow"  />
+        <Chats class="mobileDevise"  v-if="$route.meta.ShowUserlistChats"  />
         <SignUp v-if="$route.meta.ShowSignUpAndWelcome" />
-        <Welcome v-if="$route.meta.ShowLoginAndWelcome" />
+        <Welcome  class="mobileDevise" v-if="$route.meta.ShowLoginAndWelcome"  />
         <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" />
-        <Login v-if="$route.meta.ShowLoginAndWelcome" />
+        <Login v-if="$route.meta.ShowLoginAndWelcome"  />
       </div>
     </div>
   </div>
@@ -34,6 +33,9 @@ export default {
     Welcome,
     SignUp
   },
+  mounted(){
+      this.$store.dispatch("GetFriends");
+  }
 };
 </script>
 
@@ -68,4 +70,21 @@ export default {
   height: 95%;
   box-shadow: 0px 0px 6px -2px;
 }
+/* @media screen and (max-width: 768px) {
+  .mobileDevise{
+    display: none !important;
+  }
+  .welcomeWidow{
+    display: none !important;
+  }
+  .usersList{
+    width: 100%;
+  }
+  .chatWindowWidth{
+    width: 100%;
+  }
+  .mainWindow{
+    display: block;
+  }
+} */
 </style>

@@ -57,6 +57,7 @@ io.on("connection", (socket) => {
         console.log(text);    
         const friendsId=user.socketId;        
         io.to(friendsId).emit("getMessage",{
+            conversationId,
         senderId,
         text
         })}

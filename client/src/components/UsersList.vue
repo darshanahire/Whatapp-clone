@@ -76,7 +76,7 @@ a {
   overflow: hidden;
   width: 30%;
   height: 100%;
-  border-right: 1px solid rgb(214, 213, 213);
+  /* border-right: 1px solid rgb(214, 213, 213); */
 }
 .userData {
   height: 60px;

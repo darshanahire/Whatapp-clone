@@ -1,5 +1,5 @@
 <template >
-  <div class="chatwindowparent">
+  <div class="chatwindowparent chatWindowWidth">
     <div class="userTopData">
       <div class="row w-100 align-items-center">
         <div class="col-1">
@@ -35,7 +35,7 @@
                 :currSender="you"
               />
             </div>
-            <div  v-else-if="msg.sender===me">
+            <div v-else-if="msg.sender === me">
               <RightChat
                 :msg="msg.text"
                 :time="msg.createdAt"
@@ -43,8 +43,9 @@
                 :currSender="me"
               />
             </div>
-            <!-- <div v-else>{{msg.sender}}{{msg.text}}</div> -->
-          </span>
+            <!-- <div v-else>{{msg.sender}}</div> -->
+            <div v-else-if="msg!==undefined?addUnSeenMsg(msg.sender):''">{{msg.sender}}</div>
+          </span> 
         </span>
         <div id="bottomDiv" class="mt-auto" ref="Ref"></div>
       </div>
@@ -87,7 +88,8 @@ export default {
     LeftChat,
     RightChat,
   },
-  mounted: function () {
+  mounted: function () {  
+    this.$store.dispatch("GetFriends");
     const payload = { senderId: this.me, receiverId: this.you };
     http
       .newConversation(payload)
@@ -95,7 +97,6 @@ export default {
         this.conversationId = data.data._id;
         http.getMessages(this.conversationId).then(async (data) => {
           this.Messages = data.data;
-          // console.log(this.Messages);
         });
       })
       .catch((err) => {
@@ -108,10 +109,13 @@ export default {
         sender: data.senderId,
         text: this.socketMsg,
       };
-      this.Messages = [...this.Messages, payload];
+      // if(data.conversationId==this.conversationId){
+        this.Messages = [...this.Messages, payload];
+      // }      
     });
   },
   updated() {
+    // console.log(this.$store.state.friendsAllData);
     this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
   },
   created() {
@@ -140,16 +144,19 @@ export default {
       socketMsg: "",
       prevSender: "",
       currSender: "",
+      tempFriends:[],
+      c:0
     };
   },
   watch: {
     $route() {
       this.you = this.$route.params.id;
+      // this.$store.dispatch("ResetSeenMsgs",this.you);
       this.changeUser(this.you);
     },
   },
   methods: {
-    sendMsg() {
+    sendMsg() {      
       // console.log(this.msgInput);
       if (this.msgInput !== "" && this.msgInput !== null) {
         this.socket.emit("sendMessage", {
@@ -176,6 +183,9 @@ export default {
       }
     },
     async changeUser(id) {
+
+              this.Messages=[]
+              this.$store.dispatch("GetFriends");
       try {
         this.user = await http.getUser(id);
         const payload = {
@@ -205,6 +215,10 @@ export default {
         return this.Messages[id - 1].sender;
       }
     },
+    addUnSeenMsg(id){
+      this.$store.dispatch("upadateSeenMsgs",id);
+      this.Messages=this.Messages.filter((msg)=>{msg.sender!=id})
+    }
   },
 };
 </script>
