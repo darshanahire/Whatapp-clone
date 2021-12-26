@@ -1,15 +1,24 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <router-view />
     <div class="bgGreen"></div>
-    <div class="mainContainer">
+    <div class="desktop mainContainer">
       <div class="mainWindow">
         <UsersList v-if="$route.meta.ShowUserlistChats || $route.meta.ShowUserlistandChatWindow"  />
-        <Chats class="mobileDevise"  v-if="$route.meta.ShowUserlistChats"  />
+        <Chats  v-if="$route.meta.ShowUserlistChats"  />
         <SignUp v-if="$route.meta.ShowSignUpAndWelcome" />
-        <Welcome  class="mobileDevise" v-if="$route.meta.ShowLoginAndWelcome"  />
+        <Welcome  v-if="false"  />
         <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" />
         <Login v-if="$route.meta.ShowLoginAndWelcome"  />
+      </div>
+    </div>
+    <div class="mobile mainContainer">
+      <div class="mainWindow">
+        <UsersList v-if="$route.meta.showonlyuserlist && this.$store.getters.me !=''"  />
+        <Login v-else-if="$route.meta.showOnlyLogin"  />
+        <Welcome v-else-if="this.$store.getters.me==''"  />
+        <!-- <Chats  v-if="$route.meta.ShowUserlistChats"  /> -->
+        <ChatWindow v-if="$route.meta.ShowonlychatWindow" />
       </div>
     </div>
   </div>
@@ -31,11 +40,16 @@ export default {
     ChatWindow,
     Login,
     Welcome,
-    SignUp
+    SignUp,
   },
-  mounted(){
-      this.$store.dispatch("GetFriends");
+computed:{
+  getWidth(){
+    return  window.innerWidth
   }
+  },
+  mounted() {
+    this.$store.dispatch("GetFriends");
+  },
 };
 </script>
 
@@ -70,21 +84,80 @@ export default {
   height: 95%;
   box-shadow: 0px 0px 6px -2px;
 }
-/* @media screen and (max-width: 768px) {
-  .mobileDevise{
+  @media screen and (min-width: 768px) {
+.desktop{
+    display: flex;
+  }
+.mobile{
+  display: none;
+}}
+@media screen and (max-width: 768px) {
+  .desktop{
+    display: none;
+  }
+  .mobile{
+  display: flex;
+}
+  .mobileDevise {
     display: none !important;
   }
-  .welcomeWidow{
+  .welcomeWidow {
     display: none !important;
   }
-  .usersList{
+  .usersList {
     width: 100%;
   }
-  .chatWindowWidth{
+  .chatWindowWidth {
     width: 100%;
   }
-  .mainWindow{
+  .mainWindow {
     display: block;
+    height: 90% !important;
   }
-} */
+  .searchBarHeight {
+    height: 45px !important;
+  }
+  .searchBarparent {
+    margin: 10px auto;
+  }
+  .ppInfo {
+    font-size: 15px;
+    margin-top: 90px !important;
+  }
+  .welcomeHeading {
+    font-size: 33px;
+  }
+  .welcomeImg {
+    width: 300px;
+    margin: auto 0;
+  }
+  .agreeNContinueBtn {
+    font-size: 15px;
+    height: 45px;
+    width: 300px;
+    margin-top: 10px;
+  }
+  .greenLine {
+    margin-top: 30px !important;
+  }
+  /* chatWindow */
+  .mainchatWindow {
+    height: 100%;
+  }
+  .userTopData {
+    height: 70px;
+  }
+  .topEncrpMsg {
+    width: 90%;
+    padding: 10px 5px !important;
+    color: gray !important;
+  }
+  .chatingdatadiv {
+    height: 70px;
+  }
+  .InputBar{
+    height: 45px;
+    font-size: 16px;
+  }
+}
 </style>

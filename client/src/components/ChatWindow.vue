@@ -2,15 +2,22 @@
   <div class="chatwindowparent chatWindowWidth">
     <div class="userTopData">
       <div class="row w-100 align-items-center">
-        <div class="col-1">
+        <div class="col-3 col-md-1 d-flex  align-items-center px-0 px-md-2">
+          <i class="fas fa-arrow-left fa-lg mx-2 mobile" @click="goback"></i>
           <ProfileImg />
         </div>
-        <div class="col-8 text-start">
+        <div class="col-6 col-md-8 text-start">
           <h6 class="m-0">{{ user.name }}</h6>
           <!-- <p class="m-0 font-14">Click here to group info</p> -->
-          <p class="m-0 font-14">online</p>
+          <!-- found!=undefined?found:{istyping:false,unseenCount:0} -->
+          <p class="m-0 font-14" v-if="IsOnlineNow == undefined">
+            last seen today at 11:14 am
+          </p>
+          <p class="m-0 font-14" v-else-if="myfriends != undefined">
+            {{ myfriends.istyping ? "typing..." : "online" }}
+          </p>
         </div>
-        <div class="col-3 text-end">
+        <div class="col-3 col-md-3 text-end">
           <i class="fas fa-search mx-3"></i>
           <i class="fas fa-ellipsis-v mx-3 iconcolor"></i>
         </div>
@@ -19,7 +26,7 @@
     <div class="mainchatWindow scroll-y">
       <!-- <img class="" src="@/assets/chatbg.jpg" alt=""> -->
       <div class="dayDiv mt-2">TODAY</div>
-      <div class="topEncrpMsg">
+      <div class="topEncrpMsg ">
         <i class="fas fa-lock fa-xs mx-2"></i>
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
@@ -44,8 +51,10 @@
               />
             </div>
             <!-- <div v-else>{{msg.sender}}</div> -->
-            <div v-else-if="msg!==undefined?addUnSeenMsg(msg.sender):''">{{msg.sender}}</div>
-          </span> 
+            <div v-else-if="msg !== undefined ? addUnSeenMsg(msg.sender) : ''">
+              {{ msg.sender }}
+            </div>
+          </span>
         </span>
         <div id="bottomDiv" class="mt-auto" ref="Ref"></div>
       </div>
@@ -62,12 +71,13 @@
             class="InputBar px-3"
             placeholder="Type a message"
             v-model="msgInput"
+            @input="setTyping"
           />
         </div>
         <div class="text-end">
-          <!-- <i class="fas fa-microphone fa-lg text-dark mx-3"></i> -->
           <button class="sendMsgBtn" v-on:click="sendMsg">
-            <i class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
+            <i  v-if="Selftypingd" class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
+          <i v-else class="fas fa-microphone fa-lg text-dark mx-3"></i>
           </button>
         </div>
       </div>
@@ -88,7 +98,7 @@ export default {
     LeftChat,
     RightChat,
   },
-  mounted: function () {  
+  mounted: function () {
     this.$store.dispatch("GetFriends");
     const payload = { senderId: this.me, receiverId: this.you };
     http
@@ -97,24 +107,37 @@ export default {
         this.conversationId = data.data._id;
         http.getMessages(this.conversationId).then(async (data) => {
           this.Messages = data.data;
+          // this.$store.dispatch("SetMessagesToStore",this.Messages);
         });
       })
       .catch((err) => {
         console.log(err);
       });
-    this.socket.on("getMessage", (data) => {
-      this.socketMsg = data.text;
+    this.socket.on("getMessage", (data) => {      
+      this.socketMsg = data.text;      
       const payload = {
         conversationId: this.conversationId,
         sender: data.senderId,
         text: this.socketMsg,
       };
       // if(data.conversationId==this.conversationId){
-        this.Messages = [...this.Messages, payload];
-      // }      
+      this.Messages = [...this.Messages, payload];
+      console.log(this.Messages);
+      
+      // this.$store.dispatch("SetMessagesToStore",this.Messages);
+      // }
+    });
+    this.socket.on("sendertyping", (payload) => {
+      this.$store.dispatch("setfriendTyping", payload.senderId);
+    });
+    this.socket.on("getusers", (users) => {
+      // console.log(users);
+
+      this.$store.dispatch("SetonlineUsers", users);
     });
   },
   updated() {
+    
     // console.log(this.$store.state.friendsAllData);
     this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
   },
@@ -144,19 +167,32 @@ export default {
       socketMsg: "",
       prevSender: "",
       currSender: "",
-      tempFriends:[],
-      c:0
+      tempFriends: [],
     };
   },
   watch: {
     $route() {
+      
+      this.$store.dispatch("GetFriends");
       this.you = this.$route.params.id;
-      // this.$store.dispatch("ResetSeenMsgs",this.you);
+      this.$store.dispatch("ResetSeenMsgs", this.you);
       this.changeUser(this.you);
     },
   },
   methods: {
-    sendMsg() {      
+    goback(){
+      this.$router.push('/')
+    },
+    setTyping() {    
+      if(this.msgInput!=''){
+        this.$store.dispatch("setSelfTyping",true);  
+      }  
+      else{
+        this.$store.dispatch("setSelfTyping",false); 
+      }
+      this.socket.emit("typing", { senderId: this.me, receiverId: this.you });
+    },
+    sendMsg() {
       // console.log(this.msgInput);
       if (this.msgInput !== "" && this.msgInput !== null) {
         this.socket.emit("sendMessage", {
@@ -165,7 +201,6 @@ export default {
           receiverId: this.you,
           text: this.msgInput,
         });
-
         const payload = {
           conversationId: this.conversationId,
           sender: this.me,
@@ -175,6 +210,7 @@ export default {
           .sendMsg(payload)
           .then(async () => {
             this.Messages = [...this.Messages, payload];
+            // this.$store.dispatch("SetMessagesToStore",this.Messages);
             this.msgInput = "";
           })
           .catch((err) => {
@@ -183,9 +219,8 @@ export default {
       }
     },
     async changeUser(id) {
-
-              this.Messages=[]
-              this.$store.dispatch("GetFriends");
+      this.Messages = [];
+this.$store.dispatch("GetFriends");
       try {
         this.user = await http.getUser(id);
         const payload = {
@@ -198,6 +233,7 @@ export default {
             this.conversationId = data.data._id;
             http.getMessages(this.conversationId).then(async (data) => {
               this.Messages = data.data;
+              // this.$store.dispatch("SetMessagesToStore",this.Messages);
               // console.log(this.Messages);
             });
           })
@@ -215,14 +251,31 @@ export default {
         return this.Messages[id - 1].sender;
       }
     },
-    addUnSeenMsg(id){
-      this.$store.dispatch("upadateSeenMsgs",id);
-      this.Messages=this.Messages.filter((msg)=>{msg.sender!=id})
-    }
+    addUnSeenMsg(id) {
+      this.$store.dispatch("upadateSeenMsgs", id);
+      this.Messages = this.Messages.filter((msg) => {
+        msg.sender != id;
+      });
+      // this.$store.dispatch("SetMessagesToStore",this.Messages);
+    },
+  },
+  computed: {
+    myfriends() {
+      let friends = this.$store.getters.friendsAllData;
+      let found = friends.find((friend) => friend.id == this.you);
+      return found;
+    },
+    IsOnlineNow() {
+      let friends = this.$store.getters.onlineUsers;
+      let IsOnlineNow = friends.find((friend) => friend.userId == this.you);
+      return IsOnlineNow;
+    },
+    Selftypingd(){
+ return this.$store.getters.selfTyping;
+      }
   },
 };
 </script>
-
 <style>
 .chatwindowparent {
   width: 70%;
@@ -298,5 +351,9 @@ export default {
 }
 .sendMsgBtn {
   border: none;
+}
+.font-13 {
+  font-size: 13px;
+  color: #707070;
 }
 </style>

@@ -63,6 +63,10 @@ hr{
   font-weight: bolder;
   color: #0aa545;
 }
+.lightgreenText{
+  font-weight: bolder;
+  color: #4adf83;
+}
 .fas{
   color: #929292;
 }

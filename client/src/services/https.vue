@@ -18,8 +18,8 @@ async getAllUsers (){
     const data = await axios.get(this.baseUrl+'/getAllUsers');  
     return data.data;
 },
-async getFriends (payload){
-    const data = await axios.post(this.baseUrl+'/getfriends',payload);  
+async getFriends (payload){    
+    const data = await axios.post(this.baseUrl+'/getUsersFriends',payload);  
     return data.data;
 },
 
@@ -40,6 +40,11 @@ async sendMsg(payload){
 
 async getConversations(){
     const data = await axios.get(this.baseUrl+'/conversations/:userId');  
+    return data;
+},
+
+async getConversationsForLastSeen(){
+    const data = await axios.get(this.baseUrl+'/conversationsId');  
     return data;
 },
 

@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
     console.log("a user connected");
     socket.on('adduser', (userId) => {
         adduser(userId,socket.id);
-        // io.emit('getusers',users)
+        io.emit('getusers',users)
         // console.log(users);
         
     })
@@ -47,14 +47,15 @@ io.on("connection", (socket) => {
     // send and get msg
 
     socket.on("sendMessage",({senderId,receiverId,text,conversationId})=>{
+        // console.log(users);
+        
         const payload={
             conversationId,
             sender:senderId,
             text
         }
         const user = getUser(receiverId);
-        if(user){
-        console.log(text);    
+        if(user){   
         const friendsId=user.socketId;        
         io.to(friendsId).emit("getMessage",{
             conversationId,
@@ -65,6 +66,12 @@ io.on("connection", (socket) => {
             console.log("user not found in user array");
             
         }
+    })
+    socket.on("typing", (payload) => {        
+        const user = getUser(payload.receiverId);
+        if(user){
+        const friendsId=user.socketId;  
+        io.to(friendsId).emit("sendertyping",payload)};
     })
     socket.on('disconnect', function() {
         Removeuser(socket.id)

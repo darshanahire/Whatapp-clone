@@ -23,8 +23,8 @@
         </div>
       </div>
     </div>
-    <div class="searchparent font-14">
-      <div class="searchChild">
+    <div class="searchparent font-14 searchBarparent">
+      <div class="searchChild searchBarHeight">
         <i class="fas fa-search mx-3 colorDark"></i>
         <!-- <input type="text" class="searchBar" /> -->
         <input

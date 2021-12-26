@@ -1,5 +1,5 @@
 <template>
-<div class="d-flex w-100">
+<div class="d-flex w-100 h-100">
   <div class="usersList ProfileDiv">
     <div class="backBtnParent text-white d-flex align-items-end">
       <div class="d-flex align-items-center my-3">
@@ -36,12 +36,15 @@
           />
         </div>
       </div>
+      <div class="mobile text-center justify-content-center logincontinuebtn">
+    <button class="agreeNContinueBtn" @click="handdleLogin">CONTINUE</button>
+</div>
     </div>
     </div>
-    <div class="img1Parent d-flex welcomeWidow">
+    <div class=" mobileDevise img1Parent d-flex w-100 h-100">
   <h2 class=" welcomeHeading greenColor bolder">Welcome To WhatsApp</h2>
 <img class="welcomeImg mx-auto" src="@/assets/welcome.png" alt="img1">
-<div class="ppInfo mt-5 mb-3 font-14 ">
+<div class="ppInfo mt-5 mb-3 font-14 px-3">
   <p>Read our <span class="text-cyan">Privacy Policy</span>.Tap "Agree and continue" to accept the <span class="text-cyan">Terms of Service.</span></p>
 </div>
 <div class="text-center">
@@ -77,7 +80,7 @@ export default {
        const data = await http.handdleLogin(this.userData);
        localStorage.setItem("Wuser",data.data._id)
        console.log(data);
-       
+        this.$store.dispatch('Setme',data.data._id)
       //  alert("User Login successful")
        this.$router.push('/')
       }
@@ -125,5 +128,8 @@ input {
 }
 .text-gray{
     color: gray;
+}
+.logincontinuebtn{
+  margin-top: 100px;
 }
 </style>

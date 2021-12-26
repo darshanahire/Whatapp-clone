@@ -41,6 +41,18 @@ router.post('/getUserdata', async (req, res) => {
     }
 })
 
+router.post('/getUsersFriends', async (req, res) => {    
+    const _id  = req.body._id;
+    try {
+        await User.findOne({ _id }).then((data) => {            
+            res.status(200).json(data.friends);
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
+
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 

@@ -1,5 +1,21 @@
 <template>
-<div></div>
+  <div class="img1Parent d-flex w-100 h-100">
+  <h2 class=" welcomeHeading greenColor bolder">Welcome To WhatsApp</h2>
+<img class="welcomeImg mx-auto" src="@/assets/welcome.png" alt="img1">
+<div class="ppInfo mt-5 mb-3 font-14 px-3">
+  <p>Read our <span class="text-cyan">Privacy Policy</span>.Tap "Agree and continue" to accept the <span class="text-cyan">Terms of Service.</span></p>
+</div>
+<div class="text-center">
+    <router-link to="/login"> 
+    <button class="agreeNContinueBtn">AGREE AND CONTINUE</button>
+    </router-link> 
+</div>
+  <div class="mt-auto font-14">
+      <p>from</p>
+    <p class="meta"><img class="mx-1" src="@/assets/meta.png" alt="" width="60"></p>
+    </div>
+<div class="greenLine mt-auto"></div>
+</div>
 </template>
 
 <script>

@@ -14,14 +14,17 @@ const routes = [
         path: '/',
         name: 'ChatWindow',
         meta: {
-            ShowUserlistChats: true
+            ShowUserlistChats: true,
+            showonlyuserlist:true,
+            showWelcome:true
         }
     },
     {
         path: '/user/:id',
         name: 'UsersList',
         meta: {
-            ShowUserlistandChatWindow: true
+            ShowUserlistandChatWindow: true,
+            ShowonlychatWindow:true
         }
     },
     {
@@ -35,7 +38,8 @@ const routes = [
         path: '/login',
         name: "Login",
         meta: {
-            ShowLoginAndWelcome: true
+            ShowLoginAndWelcome: true,
+            showOnlyLogin:true
         }
     },
 ]
