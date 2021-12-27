@@ -40,7 +40,7 @@ const Removeuser = (socketId) => {
     users=users.filter(user => user.socketId !== socketId);
 }
 
-const io = socketio(server, {
+const io = socketio(8900, {
     cors: {
         origins: ["http://localhost:8080/"],
         methods: ["GET", "POST"]
