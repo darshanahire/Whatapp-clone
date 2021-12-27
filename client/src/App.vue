@@ -8,7 +8,7 @@
         <Chats  v-if="$route.meta.ShowUserlistChats"  />
         <SignUp v-if="$route.meta.ShowSignUpAndWelcome" />
         <Welcome  v-if="false"  />
-        <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" />
+        <!-- <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" /> -->
         <Login v-if="$route.meta.ShowLoginAndWelcome"  />
       </div>
     </div>

@@ -51,8 +51,7 @@
               />
             </div>
             <!-- <div v-else>{{msg.sender}}</div> -->
-            <div v-else-if="msg !== undefined ? addUnSeenMsg(msg.sender) : ''">
-              {{ msg.sender }}
+            <div v-else-if="msg !== undefined ? addUnSeenMsg(msg) : ''">
             </div>
           </span>
         </span>
@@ -98,7 +97,7 @@ export default {
     LeftChat,
     RightChat,
   },
-  mounted: function () {
+  mounted: function () {    
     this.$store.dispatch("GetFriends");
     const payload = { senderId: this.me, receiverId: this.you };
     http
@@ -114,18 +113,17 @@ export default {
         console.log(err);
       });
     this.socket.on("getMessage", (data) => {      
-      this.socketMsg = data.text;      
+      this.socketMsg = data.text; 
+      if(this.$route.path!=`/user/${this.you}`){
+        this.$store.dispatch("upadateSeenMsgs", {id:this.you,text:data.text});
+      }
+      else{
       const payload = {
         conversationId: this.conversationId,
         sender: data.senderId,
         text: this.socketMsg,
       };
-      // if(data.conversationId==this.conversationId){
-      this.Messages = [...this.Messages, payload];
-      console.log(this.Messages);
-      
-      // this.$store.dispatch("SetMessagesToStore",this.Messages);
-      // }
+      this.Messages = [...this.Messages, payload];}
     });
     this.socket.on("sendertyping", (payload) => {
       this.$store.dispatch("setfriendTyping", payload.senderId);
@@ -142,13 +140,13 @@ export default {
     this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
   },
   created() {
-    this.socket = io("ws://localhost:8900");
+    this.socket = io("/");    
     this.you = this.$route.params.id;
     this.changeUser(this.you);
     this.me = localStorage.getItem("Wuser");
 
-    this.socket.emit("adduser", this.me);
-
+    // this.socket.emit("adduser", this.me);
+    
     // console.log(this.socket);
     // this.socket.on("getusers", (users) => {
     //   console.log("users", users);
@@ -172,8 +170,7 @@ export default {
   },
   watch: {
     $route() {
-      
-      this.$store.dispatch("GetFriends");
+      // this.$store.dispatch("GetFriends");
       this.you = this.$route.params.id;
       this.$store.dispatch("ResetSeenMsgs", this.you);
       this.changeUser(this.you);
@@ -220,7 +217,7 @@ export default {
     },
     async changeUser(id) {
       this.Messages = [];
-this.$store.dispatch("GetFriends");
+    //  this.$store.dispatch("GetFriends");
       try {
         this.user = await http.getUser(id);
         const payload = {
@@ -251,10 +248,12 @@ this.$store.dispatch("GetFriends");
         return this.Messages[id - 1].sender;
       }
     },
-    addUnSeenMsg(id) {
-      this.$store.dispatch("upadateSeenMsgs", id);
-      this.Messages = this.Messages.filter((msg) => {
-        msg.sender != id;
+    addUnSeenMsg(msg) {
+      this.$store.dispatch("upadateSeenMsgs", {id:msg.sender,text:msg.text});
+      console.log(msg.id);
+      
+      this.Messages = this.Messages.filter((m) => {
+        m.sender != msg.id;
       });
       // this.$store.dispatch("SetMessagesToStore",this.Messages);
     },

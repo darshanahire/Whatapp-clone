@@ -7,7 +7,7 @@
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
         <i class="fas fa-comment-alt fa-lg mx-3 iconcolor"></i>
-        <i class="fas fa-ellipsis-v fa-lg mx-3 iconcolor"></i>
+        <i class="fas fa-ellipsis-v fa-lg mx-3 iconcolor" @click="localStorage.clear()"></i>
       </div>
     </div>
     <div class="notificationData">

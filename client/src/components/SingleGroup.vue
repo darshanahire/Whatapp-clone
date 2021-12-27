@@ -6,8 +6,8 @@
       <div class="col-8 d-flex flex-column justify-content-center align-items-start">
       <h6>{{user.name}}</h6>
       <p class="m-0 font-14 lightgreenText" v-if="myfriends.istyping">typing...</p>
-      <!-- <p class="m-0 font-14 text-truncate w-100" v-else>{{myfriends.text}} </p> -->
-      <p class="m-0 font-14 text-truncate w-100" v-else>Hii, how are you this is personal chat click here to see that </p>
+      <p class="m-0 font-14 text-truncate w-100 text-start" v-else>{{myfriends.unseenMsg}} </p>
+      <!-- <p class="m-0 font-14 text-truncate w-100 text-start" v-else>Hii, how are you this is personal chat click here to see that </p> -->
     </div>
       <div class="col-2 notificationsParent">
         <!-- <p class="m-0 font-12">{{ myfriends.createdAt | moment("h:mm a") }}</p> -->

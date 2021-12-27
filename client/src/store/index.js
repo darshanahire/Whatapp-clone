@@ -10,7 +10,7 @@ export default new Vuex.Store({
         friendsAllData: [],
         typingUser:"",
         onlineUsers:[],
-        usersMessages:[],
+        // usersMessages:[],
         selfTyping:false
     },
     actions: {
@@ -20,7 +20,7 @@ export default new Vuex.Store({
                     // console.log(data);
                     data.map((friend) => {    
                         !state.friendsAllData.some(user => user.id === friend) &&
-                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false });
+                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"Tap here to start chat" });
                     })                    
                     commit('SET_FRIENDS', data)
                 }).catch((err) => {
@@ -50,24 +50,27 @@ export default new Vuex.Store({
         SetonlineUsers({ commit }, data) {  
             commit('SET_ONLINE_USERS', data)
         },
-        setSelfTyping({ commit },data) {  
-            console.log(data);
-            
+        setSelfTyping({ commit },data) {              
             commit('SET_SELF_TYPING', data)
         },
-        SetMessagesToStore({ commit }, data) {  
-            commit('SET_MESSAGES', data)
-        },
-        upadateSeenMsgs({ state, commit }, id) {  
+        // SetMessagesToStore({ commit }, data) {  
+        //     commit('SET_MESSAGES', data)
+        // },
+        upadateSeenMsgs({ state, commit }, msg) {  
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
-                if(element.id==id)element.unseenCount++;
+                if(element.id==msg.id){
+                    element.unseenCount++;
+                    element.unseenMsg=msg.text;
+                }
             })
             // console.log(tempFriends);
             
             commit('UPDATE_SEEN_MSG', tempFriends)
         },
         ResetSeenMsgs({ state, commit }, id) {
+            console.log(id);
+            
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
                 if(element.id==id)element.unseenCount=0;
@@ -98,9 +101,9 @@ export default new Vuex.Store({
         SET_SELF_TYPING(state, data) {
             state.selfTyping = data;
         },
-        SET_MESSAGES(state, data) {
-            state.usersMessages = data;
-        },
+        // SET_MESSAGES(state, data) {
+        //     state.usersMessages = data;
+        // },
         UPDATE_SEEN_MSG(state,tempFriends){
             // console.log(tempFriends);
             
@@ -121,7 +124,7 @@ export default new Vuex.Store({
         me:state=>state.me,
         friendsAllData: state => state.friendsAllData,
         onlineUsers: state => state.onlineUsers,
-        usersMessages: state => state.usersMessages,
+        // usersMessages: state => state.usersMessages,
         selfTyping: state => state.selfTyping,
     }
 })
