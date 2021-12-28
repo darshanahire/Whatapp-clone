@@ -1,22 +1,29 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <router-view />
     <div class="bgGreen"></div>
-    <div class="desktop mainContainer">
+    <div class="desktop mainContainer" v-if="isMinMd">
       <div class="mainWindow">
-        <UsersList v-if="$route.meta.ShowUserlistChats || $route.meta.ShowUserlistandChatWindow"  />
-        <Chats  v-if="$route.meta.ShowUserlistChats"  />
+        <UsersList
+          v-if="
+            $route.meta.ShowUserlistChats ||
+            $route.meta.ShowUserlistandChatWindow
+          "
+        />
+        <Chats v-if="$route.meta.ShowUserlistChats" />
         <SignUp v-if="$route.meta.ShowSignUpAndWelcome" />
-        <Welcome  v-if="false"  />
-        <!-- <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" /> -->
-        <Login v-if="$route.meta.ShowLoginAndWelcome"  />
+        <Welcome v-if="false" />
+        <ChatWindow v-if="$route.meta.ShowUserlistandChatWindow" />
+        <Login v-if="$route.meta.ShowLoginAndWelcome" />
       </div>
     </div>
-    <div class="mobile mainContainer">
+      <div class="mobile mainContainer" v-else>
       <div class="mainWindow">
-        <UsersList v-if="$route.meta.showonlyuserlist && this.$store.getters.me !=''"  />
-        <Login v-else-if="$route.meta.showOnlyLogin"  />
-        <Welcome v-else-if="this.$store.getters.me==''"  />
+        <UsersList
+          v-if="$route.meta.showonlyuserlist && this.$store.getters.me != ''"
+        />
+        <Login v-else-if="$route.meta.showOnlyLogin" />
+        <Welcome v-else-if="this.$store.getters.me == ''" />
         <!-- <Chats  v-if="$route.meta.ShowUserlistChats"  /> -->
         <ChatWindow v-if="$route.meta.ShowonlychatWindow" />
       </div>
@@ -42,10 +49,10 @@ export default {
     Welcome,
     SignUp,
   },
-computed:{
-  getWidth(){
-    return  window.innerWidth
-  }
+  computed: {
+    getWidth() {
+      return window.innerWidth;
+    },
   },
   mounted() {
     this.$store.dispatch("GetFriends");
@@ -84,20 +91,21 @@ computed:{
   height: 95%;
   box-shadow: 0px 0px 6px -2px;
 }
-  @media screen and (min-width: 768px) {
-.desktop{
+@media screen and (min-width: 768px) {
+  .desktop {
     display: flex;
   }
-.mobile{
-  display: none;
-}}
-@media screen and (max-width: 768px) {
-  .desktop{
+  .mobile {
     display: none;
   }
-  .mobile{
-  display: flex;
 }
+@media screen and (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: flex;
+  }
   .mobileDevise {
     display: none !important;
   }
@@ -155,7 +163,7 @@ computed:{
   .chatingdatadiv {
     height: 70px;
   }
-  .InputBar{
+  .InputBar {
     height: 45px;
     font-size: 16px;
   }

@@ -13,6 +13,9 @@ Vue.config.productionTip = false
 // socket.emit("adduser", localStorage.getItem("Wuser"));
 
 // Vue.use(VueSocketIOExt, socket);
+import MediaQueryPlugin from 'vue-media-query-plugin';
+Vue.use(MediaQueryPlugin);
+
 new Vue({
   router,
   store,

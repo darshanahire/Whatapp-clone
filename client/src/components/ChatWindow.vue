@@ -140,7 +140,7 @@ export default {
     this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
   },
   created() {
-    this.socket = io("ws://localhost:8900");    
+    this.socket = io("/");    
     this.you = this.$route.params.id;
     this.changeUser(this.you);
     this.me = localStorage.getItem("Wuser");
