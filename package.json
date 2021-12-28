@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/darshanahire/Whatapp-clone#readme",
   "dependencies": {
-    "@vue/cli-service": "^4.5.15",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
