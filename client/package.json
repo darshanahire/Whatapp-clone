@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "^4.5.15",
@@ -24,20 +23,6 @@
     "vue-socket.io": "^3.0.10",
     "vue-socket.io-extended": "^4.2.0",
     "vue-template-compiler": "^2.6.11",
-    "vuex": "^3.6.2"
-  },
-  "dependenciesd": {
-    "axios": "^0.24.0",
-    "core-js": "^3.6.5",
-    "socket.io-client": "^4.4.0",
-    "vue": "^2.6.11",
-    "vue-axios": "^3.4.0",
-    "vue-chat-scroll": "^1.4.0",
-    "vue-moment": "^4.1.0",
-    "vue-router": "^3.5.3",
-    "vue-socket.io": "^3.0.10",
-    "vue-socket.io-extended": "^4.2.0",
-    "vue2-timeago": "^2.0.5",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
