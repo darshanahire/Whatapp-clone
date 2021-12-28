@@ -2,17 +2,28 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from "./store";
-// import VueSocketIOExt from 'vue-socket.io-extended';
-// import { io } from 'socket.io-client';
 
 Vue.config.productionTip = false
 
 
-// const socket = io.connect('/');
-// const socket = io('ws://localhost:8900');
-// socket.emit("adduser", localStorage.getItem("Wuser"));
+import VueSocketIOExt from 'vue-socket.io-extended';
+import { io } from 'socket.io-client';
+const socket = io(process.env.SOCKET_URL);
+socket.emit("adduser", localStorage.getItem("Wuser"));
+Vue.use(VueSocketIOExt, socket);
 
-// Vue.use(VueSocketIOExt, socket);
+
+
+
+// import VueSocketIO from 'vue-socket.io'
+// import {io} from 'socket.io-client'
+
+// Vue.use(new VueSocketIO({
+//     debug: true,
+//     connection: io('ws://localhost:8900')
+// })
+// )
+
 import MediaQueryPlugin from 'vue-media-query-plugin';
 Vue.use(MediaQueryPlugin);
 

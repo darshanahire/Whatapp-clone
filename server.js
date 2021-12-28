@@ -40,10 +40,9 @@ const Removeuser = (socketId) => {
     users=users.filter(user => user.socketId !== socketId);
 }
 
-const io = socketio(server, {
+const io = socketio(8900, {
     cors: {
-        origins: ["http://localhost:8080/"],
-        methods: ["GET", "POST"]
+        origins: ["http://localhost:8080"],
     }
 })
 
@@ -52,12 +51,13 @@ io.on("connection", (socket) => {
     socket.on('adduser', (userId) => {
         adduser(userId,socket.id);
         io.emit('getusers',users)
-
+        
     })
+// console.log(users);
 
     // send and get msg
 
-    socket.on("sendMessage",({senderId,receiverId,text,conversationId})=>{                
+    socket.on("sendMessage",({senderId,receiverId,text,conversationId})=>{         
         const payload={
             conversationId,
             sender:senderId,

@@ -63,7 +63,26 @@ export default {
   async created() {
     this.AllUsers = await http.getAllUsers();
     this.me = localStorage.getItem("Wuser");
+    this.$store.dispatch("Setme",this.me);
+    this.$store.dispatch("GetFriends");
+    // this.$socket.client.emit("adduser", this.me);
+       this.$socket.client.on("getMessage", (data) => {       
+      this.socketMsg = data.text; 
+        this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
+  })
   },
+  mounted(){    
+  this.$socket.client.on("getusers", (users) => {
+      this.$store.dispatch("SetonlineUsers", users);
+    });
+    this.$socket.client.on("sendertyping", (payload) => {
+      this.$store.dispatch("setfriendTyping", payload.senderId);
+    });
+  //  this.$socket.client.on("getMessage", (data) => {       
+  //     this.socketMsg = data.text; 
+  //       this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
+  // })
+  }
 };
 </script>
 

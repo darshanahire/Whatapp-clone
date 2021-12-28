@@ -3,6 +3,7 @@ import axios from 'axios';
 export default {
 name:"https",
 baseUrl: "",
+// baseUrl: "http://localhost:5000",
 
 async CreateAccount (UserData){
     const data = await axios.post(this.baseUrl+'/signup',UserData);        

@@ -50,13 +50,15 @@ export default new Vuex.Store({
         SetonlineUsers({ commit }, data) {  
             commit('SET_ONLINE_USERS', data)
         },
-        setSelfTyping({ commit },data) {              
+        setSelfTyping({ commit },data) {   
             commit('SET_SELF_TYPING', data)
         },
         // SetMessagesToStore({ commit }, data) {  
         //     commit('SET_MESSAGES', data)
         // },
         upadateSeenMsgs({ state, commit }, msg) {  
+            console.log(msg.text);
+            
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
                 if(element.id==msg.id){
@@ -77,17 +79,17 @@ export default new Vuex.Store({
             })
             commit('UPDATE_SEEN_MSG', tempFriends)
         },
-        setfriendTyping({state,commit},id){
+        setfriendTyping({state,commit},id){            
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
                 if(element.id==id)
-                {element.istyping=true;
+                {
+                element.istyping=true;
                 setTimeout(() => {
                     element.istyping=false;
                     }, 3000);
-                
                 }
-            })
+            })            
             commit('SET_TYPING', tempFriends)
         }
     },
@@ -112,7 +114,7 @@ export default new Vuex.Store({
         RESET_SEEN_MSG(state,tempFriends){
         state.friendsAllData = tempFriends;
         },
-        SET_TYPING(state,tempFriends){
+        SET_TYPING(state,tempFriends){            
         state.friendsAllData = tempFriends;
         },
         SET_ONLINE_USERS(state,data){

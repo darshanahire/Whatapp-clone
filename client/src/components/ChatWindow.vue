@@ -50,9 +50,9 @@
                 :currSender="me"
               />
             </div>
-            <!-- <div v-else>{{msg.sender}}</div> -->
-            <div v-else-if="msg !== undefined ? addUnSeenMsg(msg) : ''">
-            </div>
+            <div v-else></div>
+            <!-- <div v-else-if="msg !== undefined ? addUnSeenMsg(msg) : ''"> -->
+            <!-- </div> -->
           </span>
         </span>
         <div id="bottomDiv" class="mt-auto" ref="Ref"></div>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-const { io } = require("socket.io-client");
+// const { io } = require("socket.io-client");
 import ProfileImg from "./Profileimg";
 import http from "../services/https.vue";
 import LeftChat from "../helperComp/LeftChat.vue";
@@ -98,6 +98,7 @@ export default {
     RightChat,
   },
   mounted: function () {    
+    this.$store.dispatch("ResetSeenMsgs", this.you);
     this.$store.dispatch("GetFriends");
     const payload = { senderId: this.me, receiverId: this.you };
     http
@@ -112,10 +113,10 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-    this.socket.on("getMessage", (data) => {      
+    this.$socket.client.on("getMessage", (data) => {      
       this.socketMsg = data.text; 
       if(this.$route.path!=`/user/${this.you}`){
-        this.$store.dispatch("upadateSeenMsgs", {id:this.you,text:data.text});
+        // this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
       }
       else{
       const payload = {
@@ -125,10 +126,10 @@ export default {
       };
       this.Messages = [...this.Messages, payload];}
     });
-    this.socket.on("sendertyping", (payload) => {
+    this.$socket.client.on("sendertyping", (payload) => {
       this.$store.dispatch("setfriendTyping", payload.senderId);
     });
-    this.socket.on("getusers", (users) => {
+    this.$socket.client.on("getusers", (users) => {
       // console.log(users);
 
       this.$store.dispatch("SetonlineUsers", users);
@@ -140,15 +141,15 @@ export default {
     this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
   },
   created() {
-    this.socket = io("/");    
+    // this.$socket.client = io("ws://localhost:8900");    
     this.you = this.$route.params.id;
     this.changeUser(this.you);
     this.me = localStorage.getItem("Wuser");
 
-    // this.socket.emit("adduser", this.me);
+    // this.$socket.client.emit("adduser", this.me);
     
-    // console.log(this.socket);
-    // this.socket.on("getusers", (users) => {
+    // console.log(this.$socket.client);
+    // this.$socket.client.on("getusers", (users) => {
     //   console.log("users", users);
     // });
   },
@@ -170,7 +171,7 @@ export default {
   },
   watch: {
     $route() {
-      // this.$store.dispatch("GetFriends");
+      this.$store.dispatch("GetFriends");
       this.you = this.$route.params.id;
       this.$store.dispatch("ResetSeenMsgs", this.you);
       this.changeUser(this.you);
@@ -187,12 +188,12 @@ export default {
       else{
         this.$store.dispatch("setSelfTyping",false); 
       }
-      this.socket.emit("typing", { senderId: this.me, receiverId: this.you });
+      this.$socket.client.emit("typing", { senderId: this.me, receiverId: this.you });
     },
     sendMsg() {
       // console.log(this.msgInput);
       if (this.msgInput !== "" && this.msgInput !== null) {
-        this.socket.emit("sendMessage", {
+        this.$socket.client.emit("sendMessage", {
           conversationId: this.conversationId,
           senderId: this.me,
           receiverId: this.you,
@@ -248,15 +249,13 @@ export default {
         return this.Messages[id - 1].sender;
       }
     },
-    addUnSeenMsg(msg) {
-      this.$store.dispatch("upadateSeenMsgs", {id:msg.sender,text:msg.text});
-      console.log(msg.id);
-      
-      this.Messages = this.Messages.filter((m) => {
-        m.sender != msg.id;
-      });
-      // this.$store.dispatch("SetMessagesToStore",this.Messages);
-    },
+    // addUnSeenMsg(msg) {      
+    //   this.$store.dispatch("upadateSeenMsgs", {id:msg.sender,text:msg.text});
+    //   this.Messages = this.Messages.filter((m) => {
+    //     m.sender != msg.sender;
+    //   });
+    //   // this.$store.dispatch("SetMessagesToStore",this.Messages);
+    // },
   },
   computed: {
     myfriends() {
