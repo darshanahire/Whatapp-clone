@@ -2,7 +2,7 @@
   <div class="chatwindowparent chatWindowWidth">
     <div class="userTopData">
       <div class="row w-100 align-items-center">
-        <div class="col-3 col-md-1 d-flex  align-items-center px-0 px-md-2">
+        <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
           <i class="fas fa-arrow-left fa-lg mx-2 mobile" @click="goback"></i>
           <ProfileImg />
         </div>
@@ -26,7 +26,7 @@
     <div class="mainchatWindow scroll-y">
       <!-- <img class="" src="@/assets/chatbg.jpg" alt=""> -->
       <div class="dayDiv mt-2">TODAY</div>
-      <div class="topEncrpMsg ">
+      <div class="topEncrpMsg">
         <i class="fas fa-lock fa-xs mx-2"></i>
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
@@ -55,14 +55,51 @@
             <!-- </div> -->
           </span>
         </span>
-        <div id="bottomDiv" class="mt-auto" ref="Ref"></div>
       </div>
+      <div id="bottomDiv" class="mt-auto" ref="Ref"></div>
     </div>
+
+    <!-- emoji -->
+    <div></div>
     <div class="chatingdatadiv">
       <div class="w-100 d-flex align-items-center justify-content-center">
-        <div class="text-start d-flex">
-          <i class="far fa-grin fa-lg text-dark mx-2"></i>
-          <i class="fas fa-paperclip fa-lg text-dark mx-3"></i>
+        <div class="text-start row mx-0">
+          <emoji-picker class="col-6" @emoji="append" :search="search">
+            <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+              <div class="emoji-picker px-3">
+                <div class="emoji-picker__search pb-3">
+                  <input
+                    type="text"
+                    class="InputBar px-3"
+                    placeholder="Search Emoji"
+                    v-model="search"
+                  />
+                </div>
+                <div class="emojiParent">
+                  <div v-for="(emojiGroup, category) in emojis" :key="category">
+                    <h5>{{ category }}</h5>
+                    <div class="emojis">
+                      <span
+                        v-for="(emoji, emojiName) in emojiGroup"
+                        :key="emojiName"
+                        @click="insert(emoji)"
+                        :title="emojiName"
+                        >{{ emoji }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <i
+              class="far fa-grin fa-lg text-dark emoji-invoker col-6"
+              slot="emoji-invoker"
+              slot-scope="{ events: { click: clickEvent } }"
+              @click.stop="clickEvent"
+            >
+            </i>
+          </emoji-picker>
+          <i class="fas fa-paperclip fa-lg text-dark mx-5"></i>
         </div>
         <div class="text-start w-85">
           <input
@@ -73,10 +110,14 @@
             @input="setTyping"
           />
         </div>
-        <div class="text-end">
+        <div class="text-end d-flex">
           <button class="sendMsgBtn" v-on:click="sendMsg">
-            <i  v-if="Selftypingd" class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
-          <i v-else class="fas fa-microphone fa-lg text-dark mx-3"></i>
+            <!-- <i
+              v-if="Selftypingd"
+              class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"
+            ></i> -->
+            <i class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
+            <!-- <i v-else class="fas fa-microphone fa-lg text-dark mx-3"></i> -->
           </button>
         </div>
       </div>
@@ -85,6 +126,7 @@
 </template>
 
 <script>
+import { EmojiPicker } from "vue-emoji-picker";
 // const { io } = require("socket.io-client");
 import ProfileImg from "./Profileimg";
 import http from "../services/https.vue";
@@ -96,10 +138,12 @@ export default {
     ProfileImg,
     LeftChat,
     RightChat,
+    EmojiPicker,
   },
-  mounted: function () {    
+  mounted: function () {
     this.$store.dispatch("ResetSeenMsgs", this.you);
     this.$store.dispatch("GetFriends");
+    if(this.me!=null && this.me!=""){
     const payload = { senderId: this.me, receiverId: this.you };
     http
       .newConversation(payload)
@@ -112,19 +156,19 @@ export default {
       })
       .catch((err) => {
         console.log(err);
-      });
-    this.$socket.client.on("getMessage", (data) => {      
-      this.socketMsg = data.text; 
-      if(this.$route.path!=`/user/${this.you}`){
+      })};
+    this.$socket.client.on("getMessage", (data) => {
+      this.socketMsg = data.text;
+      if (this.$route.path != `/user/${this.you}`) {
         // this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
+      } else {
+        const payload = {
+          conversationId: this.conversationId,
+          sender: data.senderId,
+          text: this.socketMsg,
+        };
+        this.Messages = [...this.Messages, payload];
       }
-      else{
-      const payload = {
-        conversationId: this.conversationId,
-        sender: data.senderId,
-        text: this.socketMsg,
-      };
-      this.Messages = [...this.Messages, payload];}
     });
     this.$socket.client.on("sendertyping", (payload) => {
       this.$store.dispatch("setfriendTyping", payload.senderId);
@@ -136,18 +180,17 @@ export default {
     });
   },
   updated() {
-    
     // console.log(this.$store.state.friendsAllData);
     this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
   },
   created() {
-    // this.$socket.client = io("ws://localhost:8900");    
+    // this.$socket.client = io("ws://localhost:8900");
     this.you = this.$route.params.id;
     this.changeUser(this.you);
     this.me = localStorage.getItem("Wuser");
 
     // this.$socket.client.emit("adduser", this.me);
-    
+
     // console.log(this.$socket.client);
     // this.$socket.client.on("getusers", (users) => {
     //   console.log("users", users);
@@ -155,7 +198,9 @@ export default {
   },
   data() {
     return {
-      msgInput: null,
+      input: "",
+      search: "",
+      msgInput: "",
       user: {},
       payload: "",
       Messages: [],
@@ -178,21 +223,32 @@ export default {
     },
   },
   methods: {
-    goback(){
-      this.$router.push('/')
+    append(emoji) {
+      this.msgInput += emoji;
     },
-    setTyping() {    
-      if(this.msgInput!=''){
-        this.$store.dispatch("setSelfTyping",true);  
-      }  
-      else{
-        this.$store.dispatch("setSelfTyping",false); 
+    colapse() {
+      this.$refs.Ref.scrollIntoView();
+    },
+    emojiInput(emoji) {
+      this.msgInput += emoji;
+    },
+    goback() {
+      this.$router.push("/");
+    },
+    setTyping() {
+      if (this.msgInput != "") {
+        this.$store.dispatch("setSelfTyping", true);
+      } else {
+        this.$store.dispatch("setSelfTyping", false);
       }
-      this.$socket.client.emit("typing", { senderId: this.me, receiverId: this.you });
+      this.$socket.client.emit("typing", {
+        senderId: this.me,
+        receiverId: this.you,
+      });
     },
     sendMsg() {
       // console.log(this.msgInput);
-      if (this.msgInput !== "" && this.msgInput !== null) {
+      if (this.msgInput !== "" && this.msgInput !== null && this.me!=null) {
         this.$socket.client.emit("sendMessage", {
           conversationId: this.conversationId,
           senderId: this.me,
@@ -218,7 +274,7 @@ export default {
     },
     async changeUser(id) {
       this.Messages = [];
-    //  this.$store.dispatch("GetFriends");
+      //  this.$store.dispatch("GetFriends");
       try {
         this.user = await http.getUser(id);
         const payload = {
@@ -249,7 +305,7 @@ export default {
         return this.Messages[id - 1].sender;
       }
     },
-    // addUnSeenMsg(msg) {      
+    // addUnSeenMsg(msg) {
     //   this.$store.dispatch("upadateSeenMsgs", {id:msg.sender,text:msg.text});
     //   this.Messages = this.Messages.filter((m) => {
     //     m.sender != msg.sender;
@@ -268,13 +324,20 @@ export default {
       let IsOnlineNow = friends.find((friend) => friend.userId == this.you);
       return IsOnlineNow;
     },
-    Selftypingd(){
- return this.$store.getters.selfTyping;
-      }
+    Selftypingd() {
+      return this.$store.getters.selfTyping;
+    },
   },
 };
 </script>
 <style>
+.fa-paperclip {
+  margin-right: 0 !important;
+}
+.emojiParent {
+  overflow: scroll;
+  background: white;
+}
 .chatwindowparent {
   width: 70%;
   height: 100%;
@@ -353,5 +416,67 @@ export default {
 .font-13 {
   font-size: 13px;
   color: #707070;
+}
+
+.emoji-invoker {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.emoji-picker {
+  position: absolute;
+  z-index: 1;
+  font-family: Montserrat;
+  border: 1px solid #ccc;
+  width: 30rem;
+  height: 20rem;
+  overflow: scroll;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 1px 1px 8px #c7dbe6;
+  bottom: 90px;
+  z-index: 1000;
+  width: 62%;
+}
+.emoji-picker__search {
+  display: flex;
+}
+.emoji-picker__search > input {
+  flex: 1;
+  border-radius: 10rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  outline: none;
+}
+.emoji-picker h5 {
+  margin: 5px 0;
+  color: #b1b1b1;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  cursor: default;
+}
+.emoji-picker .emojis {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.emoji-picker .emojis:after {
+  content: "";
+  flex: auto;
+}
+.emoji-picker .emojis span {
+  padding: 0.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.emoji-picker .emojis span:hover {
+  background: #ececec;
+  cursor: pointer;
 }
 </style>

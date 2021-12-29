@@ -79,7 +79,6 @@ export default {
       try{
        const data = await http.handdleLogin(this.userData);
        localStorage.setItem("Wuser",data.data._id)
-       console.log(data);
         this.$store.dispatch('Setme',data.data._id)
       //  alert("User Login successful")
        this.$router.push('/')

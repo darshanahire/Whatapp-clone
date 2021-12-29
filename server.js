@@ -40,7 +40,7 @@ const Removeuser = (socketId) => {
     users=users.filter(user => user.socketId !== socketId);
 }
 
-const io = socketio(8900, {
+const io = socketio(server, {
     cors: {
         origins: ["http://localhost:8080"],
     }
@@ -98,6 +98,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log("server listion on port : ", port);
 })

@@ -39,6 +39,7 @@ props:{
   margin-left:3px;
 }
 .msg{
+  word-wrap: break-word;
   overflow: hidden;
 }
 .rightChat {

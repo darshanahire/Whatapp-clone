@@ -9,9 +9,10 @@
       <p class="m-0 font-14 text-truncate w-100 text-start" v-else>{{myfriends.unseenMsg}} </p>
       <!-- <p class="m-0 font-14 text-truncate w-100 text-start" v-else>Hii, how are you this is personal chat click here to see that </p> -->
     </div>
-      <div class="col-2 notificationsParent">
+      <div class="col-2 notificationsParent pt-2">
         <!-- <p class="m-0 font-12">{{ myfriends.createdAt | moment("h:mm a") }}</p> -->
-        <p class="m-0 font-12">4:08 pm</p>
+        <p class="m-0 font-12 mediamgreenText fw-6"  v-if="myfriends.unseenCount!=0">{{ myfriends.createdAt | moment("h:mm a") }}</p>
+        <p class="m-0 font-10"  v-else>9:20 am</p>
         <div v-if="myfriends.unseenCount!=0" class="notifications">{{ myfriends.unseenCount }}</div>
       </div>
     </div>
@@ -38,7 +39,7 @@ export default {
     myfriends(){
       let friends=this.$store.getters.friendsAllData;
       let found = friends.find((friend) => friend.id == this.id);
-      return found!=undefined?found:{istyping:false,unseenCount:0,text:"Tap to start chat",createdAt:new Date()};
+      return found!=undefined?found:{istyping:false,unseenCount:0,unseenMsg:"Tap to start chat",createdAt:new Date()};
     },
     // GetLastMsgAndTime(){
     //   return 
@@ -54,6 +55,12 @@ export default {
 </script>
 
 <style>
+.fw-6{
+  font-weight: 600;
+}
+.font-10{
+  font-size: 11px;
+}
 .singleGrp {
   height: 70px;
   /* background: #ededed; */
@@ -61,10 +68,13 @@ export default {
 .font-12 {
   font-size: 12px;
 }
+.mediamgreenText{
+  color: #25D366;
+}
 .notificationsParent {
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   flex-direction: column;
 }

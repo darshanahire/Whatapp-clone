@@ -7,7 +7,7 @@
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
         <i class="fas fa-comment-alt fa-lg mx-3 iconcolor"></i>
-        <i class="fas fa-ellipsis-v fa-lg mx-3 iconcolor" @click="localStorage.clear()"></i>
+        <i class="fas fa-ellipsis-v fa-lg mx-3 iconcolor" @click="logout"></i>
       </div>
     </div>
     <div class="notificationData">
@@ -37,8 +37,13 @@
     <div class="lists mt-1">
       <hr class="hr" />
       <span v-for="(user, id) in AllUsers" :key="id">
-          <SingleGroup v-if="user._id!==me" :user="user" :id="user._id" :key="id"/>
-          <hr class="hr" />
+        <SingleGroup
+          v-if="user._id !== me"
+          :user="user"
+          :id="user._id"
+          :key="id"
+        />
+        <hr class="hr" />
       </span>
     </div>
   </div>
@@ -57,32 +62,44 @@ export default {
   data() {
     return {
       AllUsers: [],
-      me:""
+      me: "",
     };
   },
   async created() {
     this.AllUsers = await http.getAllUsers();
     this.me = localStorage.getItem("Wuser");
-    this.$store.dispatch("Setme",this.me);
+    this.$store.dispatch("Setme", this.me);
     this.$store.dispatch("GetFriends");
     // this.$socket.client.emit("adduser", this.me);
-       this.$socket.client.on("getMessage", (data) => {       
-      this.socketMsg = data.text; 
-        this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
-  })
+    this.$socket.client.on("getMessage", (data) => {
+      this.socketMsg = data.text;
+      if (this.$route.path != `/user/${data.senderId}`) {
+        this.$store.dispatch("upadateSeenMsgs", {
+          id: data.senderId,
+          text: data.text,
+        });
+      }
+    });
   },
-  mounted(){    
-  this.$socket.client.on("getusers", (users) => {
+  mounted() {
+    this.$socket.client.on("getusers", (users) => {
       this.$store.dispatch("SetonlineUsers", users);
     });
     this.$socket.client.on("sendertyping", (payload) => {
       this.$store.dispatch("setfriendTyping", payload.senderId);
     });
-  //  this.$socket.client.on("getMessage", (data) => {       
-  //     this.socketMsg = data.text; 
-  //       this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
-  // })
-  }
+    //  this.$socket.client.on("getMessage", (data) => {
+    //     this.socketMsg = data.text;
+    //       this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
+    // })
+  },
+  methods: {
+    logout() {
+      alert("logout successful...");
+      localStorage.clear();
+      this.$router.push("/login");
+    },
+  },
 };
 </script>
 

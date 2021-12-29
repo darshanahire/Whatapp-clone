@@ -30,8 +30,11 @@ async getUser (id){
 },
 
 async newConversation(payload){
+if(payload.senderId!=null){
     const data = await axios.post(this.baseUrl+'/conversations',payload);  
     return data;
+}
+return {};
 },
 
 async sendMsg(payload){

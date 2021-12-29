@@ -15,17 +15,18 @@ export default new Vuex.Store({
     },
     actions: {
         async GetFriends({state,commit }) {
+            if(this.state.me!="" && this.state.me!=null){
                 const payload = { _id: this.state.me };
                 http.getFriends(payload).then(async(data) => {
                     // console.log(data);
                     data.map((friend) => {    
                         !state.friendsAllData.some(user => user.id === friend) &&
-                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"Tap here to start chat" });
+                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"Tap here to start chat",createdAt:new Date() });
                     })                    
                     commit('SET_FRIENDS', data)
                 }).catch((err) => {
                     console.log(err);
-                })
+                })}
             
             // return new Promise((resolve, reject) => {
             //     const payload = { _id: this.state.me };
@@ -56,13 +57,13 @@ export default new Vuex.Store({
         // SetMessagesToStore({ commit }, data) {  
         //     commit('SET_MESSAGES', data)
         // },
-        upadateSeenMsgs({ state, commit }, msg) {  
-            console.log(msg.text);
-            
+        upadateSeenMsgs({ state, commit }, msg) {                          
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
                 if(element.id==msg.id){
-                    element.unseenCount++;
+                    if(element.unseenMsg!=msg.text){
+                        element.unseenCount++;
+                    }
                     element.unseenMsg=msg.text;
                 }
             })
@@ -70,9 +71,7 @@ export default new Vuex.Store({
             
             commit('UPDATE_SEEN_MSG', tempFriends)
         },
-        ResetSeenMsgs({ state, commit }, id) {
-            console.log(id);
-            
+        ResetSeenMsgs({ state, commit }, id) {            
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
                 if(element.id==id)element.unseenCount=0;

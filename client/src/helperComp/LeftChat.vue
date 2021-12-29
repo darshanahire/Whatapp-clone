@@ -2,7 +2,7 @@
   <div class="leftChatParent px-3">
     <div v-if="prevSender != currSender" class="tailInIcon"></div>
     <div class="leftChat">
-      <p>
+      <p class="msg">
         {{ msg }}
       </p>
       <div class="chatTime">

@@ -25,7 +25,7 @@
         <Login v-else-if="$route.meta.showOnlyLogin" />
         <Welcome v-else-if="this.$store.getters.me == ''" />
         <!-- <Chats  v-if="$route.meta.ShowUserlistChats"  /> -->
-        <ChatWindow v-if="$route.meta.ShowonlychatWindow" />
+        <ChatWindow v-if="$route.meta.ShowonlychatWindow && this.$store.getters.me != ''" />
       </div>
     </div>
   </div>
@@ -100,6 +100,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .container{
+width: 90% !important;
+  }
   .desktop {
     display: none;
   }
@@ -167,5 +170,10 @@ export default {
     height: 45px;
     font-size: 16px;
   }
+  .emoji-picker {
+  bottom: 100px;
+  width: 85%;
+  }
+
 }
 </style>

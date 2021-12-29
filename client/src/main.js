@@ -4,11 +4,15 @@ import router from './router'
 import store from "./store";
 
 Vue.config.productionTip = false
-
+import dotenv from 'dotenv'
+Vue.use(EmojiPicker)
+dotenv.config()
 
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
-const socket = io(process.env.SOCKET_URL);
+const socket = io('/');
+// const socket = io('ws://localhost:5000');
+
 socket.emit("adduser", localStorage.getItem("Wuser"));
 Vue.use(VueSocketIOExt, socket);
 
