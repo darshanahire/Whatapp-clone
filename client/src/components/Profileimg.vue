@@ -1,12 +1,17 @@
 <template>
   <div class="profile">
-      <img class="profilePict" src="@/assets/avatar1.jpg" alt="">
+
+      <img v-if="dp!=undefined" class="profilePict" :src=dp alt="">
+      <img v-else class="profilePict" src="@/assets/avatar3.jpg" alt="">
   </div>
 </template>
 
 <script>
 export default {
   name: "ProfileImg",
+  props:{
+    dp:String
+  }
 };
 </script>
 

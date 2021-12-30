@@ -54,12 +54,14 @@ router.post('/getUsersFriends', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password ,dp} = req.body;
 
     try {
-        await User.findOne({ email, password }).then((data) => {
+        await User.findOne({ email, password }).then(async(data) => {
             if (data !== null && data.password === password) {
-                res.status(200).json(data);
+                await User.findOneAndUpdate({email},{dp:dp}).then(async(d)=>{
+                    res.status(200).json(d);
+                })
             }
             else {
                 res.status(401).send("Check Password or Signup First");

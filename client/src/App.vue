@@ -17,15 +17,18 @@
         <Login v-if="$route.meta.ShowLoginAndWelcome" />
       </div>
     </div>
-      <div class="mobile mainContainer" v-else>
+    <div class="mobile mainContainer" v-else>
       <div class="mainWindow">
         <UsersList
           v-if="$route.meta.showonlyuserlist && this.$store.getters.me != ''"
         />
         <Login v-else-if="$route.meta.showOnlyLogin" />
+         <SignUp v-if="$route.meta.onlySignup" />
         <Welcome v-else-if="this.$store.getters.me == ''" />
         <!-- <Chats  v-if="$route.meta.ShowUserlistChats"  /> -->
-        <ChatWindow v-if="$route.meta.ShowonlychatWindow && this.$store.getters.me != ''" />
+        <ChatWindow
+          v-if="$route.meta.ShowonlychatWindow && this.$store.getters.me != ''"
+        />
       </div>
     </div>
   </div>
@@ -100,8 +103,8 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .container{
-width: 90% !important;
+  .container {
+    width: 90% !important;
   }
   .desktop {
     display: none;
@@ -171,9 +174,21 @@ width: 90% !important;
     font-size: 16px;
   }
   .emoji-picker {
-  bottom: 100px;
-  width: 85%;
+    bottom: 100px;
+    width: 85%;
   }
+  .cameraParent {
+    right: 140px;
+    height: 50px;
+    width: 50px;
+  }
+  .nameChange,
+.abouthange {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 }
 </style>

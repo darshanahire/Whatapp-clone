@@ -2,7 +2,7 @@
   <div class="usersList">
     <div class="userData row mx-0">
       <div class="col-4 d-flex justify-content-start align-items-center">
-        <router-link to="/login"><ProfileImg /></router-link>
+        <router-link to="/login"><ProfileImg :dp="user.dp"/></router-link>
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
@@ -63,12 +63,15 @@ export default {
     return {
       AllUsers: [],
       me: "",
+      user:{}
     };
   },
   async created() {
     this.AllUsers = await http.getAllUsers();
     this.me = localStorage.getItem("Wuser");
+    this.user = await http.getUser(this.me);
     this.$store.dispatch("Setme", this.me);
+    this.$store.dispatch("SetUser", this.user);
     this.$store.dispatch("GetFriends");
     // this.$socket.client.emit("adduser", this.me);
     this.$socket.client.on("getMessage", (data) => {

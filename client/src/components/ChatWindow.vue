@@ -4,7 +4,7 @@
       <div class="row w-100 align-items-center">
         <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
           <i class="fas fa-arrow-left fa-lg mx-2 mobile" @click="goback"></i>
-          <ProfileImg />
+          <ProfileImg :dp="user.dp"/>
         </div>
         <div class="col-6 col-md-8 text-start">
           <h6 class="m-0">{{ user.name }}</h6>

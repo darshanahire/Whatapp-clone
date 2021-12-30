@@ -5,6 +5,9 @@ const User = new mongoose.Schema(
        name :{
            type : String,
        },
+       dp:{
+           type:String,
+       },
        about :{
            type : String
        },

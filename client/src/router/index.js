@@ -31,7 +31,8 @@ const routes = [
         path: '/signup',
         name: "SignUp",
         meta: {
-            ShowSignUpAndWelcome: true
+            ShowSignUpAndWelcome: true,
+            onlySignup:true
         }
     },
     {

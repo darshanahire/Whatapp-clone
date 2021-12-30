@@ -2,7 +2,7 @@
   <router-link :to="`/user/${id}`">
     <div class="singleGrp row mx-0">
       <hr class="hr" />
-      <ProfileImg class="col-2 m-auto" />
+      <ProfileImg  class="col-2 m-auto" :dp="user.dp" />
       <div class="col-8 d-flex flex-column justify-content-center align-items-start">
       <h6>{{user.name}}</h6>
       <p class="m-0 font-14 lightgreenText" v-if="myfriends.istyping">typing...</p>
@@ -31,6 +31,10 @@ export default {
     return{
       currFriend:{},
     }
+  },
+  created(){
+    // console.log(this.user);
+    
   },
   components: {
     ProfileImg,

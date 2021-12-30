@@ -11,7 +11,8 @@ export default new Vuex.Store({
         typingUser:"",
         onlineUsers:[],
         // usersMessages:[],
-        selfTyping:false
+        selfTyping:false,
+        user:{}
     },
     actions: {
         async GetFriends({state,commit }) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         },
         Setme({ commit }, data) {  
             commit('SET_ME', data)
+        },
+        SetUser({ commit }, data) {  
+            commit('SET_USER', data)
         },
         SetonlineUsers({ commit }, data) {  
             commit('SET_ONLINE_USERS', data)
@@ -93,6 +97,9 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+        SET_USER(state, data) {
+            state.user = data;
+        },
         SET_ME(state, data) {
             state.me = data;
         },
@@ -123,6 +130,7 @@ export default new Vuex.Store({
     modules: {},
     getters: {
         me:state=>state.me,
+        user:state=>state.user,
         friendsAllData: state => state.friendsAllData,
         onlineUsers: state => state.onlineUsers,
         // usersMessages: state => state.usersMessages,
