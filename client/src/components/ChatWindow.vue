@@ -249,23 +249,24 @@ export default {
     sendMsg() {
       // console.log(this.msgInput);
       if (this.msgInput !== "" && this.msgInput !== null && this.me!=null) {
+        let tempMsg = this.msgInput ;
+        this.msgInput = "";
         this.$socket.client.emit("sendMessage", {
           conversationId: this.conversationId,
           senderId: this.me,
           receiverId: this.you,
-          text: this.msgInput,
+          text: tempMsg,
         });
         const payload = {
           conversationId: this.conversationId,
           sender: this.me,
-          text: this.msgInput,
+          text: tempMsg,
         };
         http
           .sendMsg(payload)
           .then(async () => {
             this.Messages = [...this.Messages, payload];
             // this.$store.dispatch("SetMessagesToStore",this.Messages);
-            this.msgInput = "";
           })
           .catch((err) => {
             console.log(err);

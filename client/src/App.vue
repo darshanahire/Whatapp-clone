@@ -23,8 +23,8 @@
           v-if="$route.meta.showonlyuserlist && this.$store.getters.me != ''"
         />
         <Login v-else-if="$route.meta.showOnlyLogin" />
+        <Welcome v-else-if="this.$store.getters.me == '' && !$route.meta.onlySignup" />
          <SignUp v-if="$route.meta.onlySignup" />
-        <Welcome v-else-if="this.$store.getters.me == ''" />
         <!-- <Chats  v-if="$route.meta.ShowUserlistChats"  /> -->
         <ChatWindow
           v-if="$route.meta.ShowonlychatWindow && this.$store.getters.me != ''"
