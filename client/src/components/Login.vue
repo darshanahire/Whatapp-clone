@@ -23,7 +23,7 @@
             "
           >
             <img
-            v-if="!user.dp"
+            v-if="user==null || !user.dp"
               class="dp"
               src="@/assets/avatar3.jpg"
               alt="img1"
@@ -140,6 +140,7 @@ export default {
         axios.post("https://api.cloudinary.com/v1_1/darshanscloud/image/upload", formdata).then(async (res) => {
           let payload={...this.userData,dp:res.data.secure_url}
         const data = await http.handdleLogin(payload);
+        this.$socket.client.emit("adduser", data.data._id);
         localStorage.setItem("Wuser", data.data._id);
         this.$store.dispatch("Setme", data.data._id);
         //  alert("User Login successful")

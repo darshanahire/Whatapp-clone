@@ -4,14 +4,14 @@
       <div class="row w-100 align-items-center">
         <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
           <i class="fas fa-arrow-left fa-lg mx-2 mobile" @click="goback"></i>
-          <ProfileImg :dp="user.dp"/>
+          <ProfileImg :dp="user.dp" />
         </div>
         <div class="col-6 col-md-8 text-start">
           <h6 class="m-0">{{ user.name }}</h6>
           <!-- <p class="m-0 font-14">Click here to group info</p> -->
           <!-- found!=undefined?found:{istyping:false,unseenCount:0} -->
           <p class="m-0 font-14" v-if="IsOnlineNow == undefined">
-            last seen today at 11:14 am
+            last seen today at {{ user.lastSeen | moment("h:mm a") }}
           </p>
           <p class="m-0 font-14" v-else-if="myfriends != undefined">
             {{ myfriends.istyping ? "typing..." : "online" }}
@@ -143,20 +143,21 @@ export default {
   mounted: function () {
     this.$store.dispatch("ResetSeenMsgs", this.you);
     this.$store.dispatch("GetFriends");
-    if(this.me!=null && this.me!=""){
-    const payload = { senderId: this.me, receiverId: this.you };
-    http
-      .newConversation(payload)
-      .then(async (data) => {
-        this.conversationId = data.data._id;
-        http.getMessages(this.conversationId).then(async (data) => {
-          this.Messages = data.data;
-          // this.$store.dispatch("SetMessagesToStore",this.Messages);
+    if (this.me != null && this.me != "") {
+      const payload = { senderId: this.me, receiverId: this.you };
+      http
+        .newConversation(payload)
+        .then(async (data) => {
+          this.conversationId = data.data._id;
+          http.getMessages(this.conversationId).then(async (data) => {
+            this.Messages = data.data;
+            // this.$store.dispatch("SetMessagesToStore",this.Messages);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      })};
+    }
     this.$socket.client.on("getMessage", (data) => {
       this.socketMsg = data.text;
       if (this.$route.path != `/user/${this.you}`) {
@@ -174,8 +175,6 @@ export default {
       this.$store.dispatch("setfriendTyping", payload.senderId);
     });
     this.$socket.client.on("getusers", (users) => {
-      // console.log(users);
-
       this.$store.dispatch("SetonlineUsers", users);
     });
   },
@@ -192,9 +191,9 @@ export default {
     // this.$socket.client.emit("adduser", this.me);
 
     // console.log(this.$socket.client);
-    // this.$socket.client.on("getusers", (users) => {
-    //   console.log("users", users);
-    // });
+    this.$socket.client.on("getusers", (users) => {
+      this.$store.dispatch("SetonlineUsers", users);
+    });
   },
   data() {
     return {
@@ -248,8 +247,8 @@ export default {
     },
     sendMsg() {
       // console.log(this.msgInput);
-      if (this.msgInput !== "" && this.msgInput !== null && this.me!=null) {
-        let tempMsg = this.msgInput ;
+      if (this.msgInput !== "" && this.msgInput !== null && this.me != null) {
+        let tempMsg = this.msgInput;
         this.msgInput = "";
         this.$socket.client.emit("sendMessage", {
           conversationId: this.conversationId,

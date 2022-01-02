@@ -12,7 +12,7 @@
       <div class="col-2 notificationsParent pt-2">
         <!-- <p class="m-0 font-12">{{ myfriends.createdAt | moment("h:mm a") }}</p> -->
         <p class="m-0 font-12 mediamgreenText fw-6"  v-if="myfriends.unseenCount!=0">{{ myfriends.createdAt | moment("h:mm a") }}</p>
-        <p class="m-0 font-10"  v-else>9:20 am</p>
+        <p class="m-0 font-10"  v-else>{{ user.lastSeen | moment("h:mm a") }}</p>
         <div v-if="myfriends.unseenCount!=0" class="notifications">{{ myfriends.unseenCount }}</div>
       </div>
     </div>

@@ -126,7 +126,8 @@ export default {
       about : "",
       email : "",
       password : "",
-      dp:""
+      dp:null,
+      lastSeen:new Date(),
       },
       image:null
     };

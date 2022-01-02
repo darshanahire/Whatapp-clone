@@ -20,7 +20,7 @@ export default {
   padding: 0;
   width: 50px;
   height: 50px;
-  background: rgb(136, 136, 136);
+  background:#e0e8ea;
   border-radius: 50%;
     overflow: hidden;
 }

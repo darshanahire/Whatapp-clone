@@ -11,6 +11,9 @@ const User = new mongoose.Schema(
        about :{
            type : String
        },
+       lastSeen :{
+           type : Date
+       },
        email :{
            type : String,
            unique : true

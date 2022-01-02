@@ -189,6 +189,8 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
-
+.leftChat,.rightChat{
+  max-width:90% ;
+}
 }
 </style>
