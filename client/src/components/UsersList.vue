@@ -3,6 +3,7 @@
     <div class="userData row mx-0">
       <div class="col-4 d-flex justify-content-start align-items-center" :title="user!=null?user.name:''">
         <router-link to="/login"><ProfileImg :dp="user!=null?user.dp:null"/></router-link>
+<p class="px-3 d-md-none">{{user!=null?user.name:''}}</p>
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>

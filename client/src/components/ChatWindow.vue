@@ -3,7 +3,7 @@
     <div class="userTopData">
       <div class="row w-100 align-items-center">
         <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
-          <i class="fas fa-arrow-left fa-lg mx-2 mobile" @click="goback"></i>
+          <i class="fas fa-arrow-left fa-lg mx-2 mobile iconcolor font-20 gobackArrow" @click="goback"></i>
           <ProfileImg :dp="user.dp" />
         </div>
         <div class="col-6 col-md-8 text-start">
@@ -18,7 +18,7 @@
           </p>
         </div>
         <div class="col-3 col-md-3 text-end">
-          <i class="fas fa-search mx-3"></i>
+          <i class="fas fa-search mx-3 iconcolor"></i>
           <i class="fas fa-ellipsis-v mx-3 iconcolor"></i>
         </div>
       </div>
@@ -92,14 +92,14 @@
               </div>
             </div>
             <i
-              class="far fa-grin fa-lg text-dark emoji-invoker col-6"
+              class="far fa-grin fa-lg iconcolor emoji-invoker col-6"
               slot="emoji-invoker"
               slot-scope="{ events: { click: clickEvent } }"
               @click.stop="clickEvent"
             >
             </i>
           </emoji-picker>
-          <i class="fas fa-paperclip fa-lg text-dark mx-5"></i>
+          <i class="fas fa-paperclip fa-lg iconcolor mx-5"></i>
         </div>
         <div class="text-start w-85">
           <input
@@ -116,7 +116,7 @@
               v-if="Selftypingd"
               class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"
             ></i> -->
-            <i class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"></i>
+            <i class="fas fa-paper-plane fa-lg iconcolor mx-2 d-flex"></i>
             <!-- <i v-else class="fas fa-microphone fa-lg text-dark mx-3"></i> -->
           </button>
         </div>
@@ -180,7 +180,7 @@ export default {
   },
   updated() {
     // console.log(this.$store.state.friendsAllData);
-    this.$refs.Ref.scrollIntoView({ behavior: "smooth" });
+    this.$refs.Ref.scrollIntoView({ behavior: "smooth" ,block: "end"});
   },
   created() {
     // this.$socket.client = io("ws://localhost:8900");
@@ -224,9 +224,6 @@ export default {
   methods: {
     append(emoji) {
       this.msgInput += emoji;
-    },
-    colapse() {
-      this.$refs.Ref.scrollIntoView();
     },
     emojiInput(emoji) {
       this.msgInput += emoji;
@@ -331,6 +328,9 @@ export default {
 };
 </script>
 <style>
+.gobackArrow{
+  margin-right: 10px !important ;
+}
 .fa-paperclip {
   margin-right: 0 !important;
 }
