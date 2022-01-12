@@ -43,7 +43,7 @@ export default {
     myfriends(){
       let friends=this.$store.getters.friendsAllData;
       let found = friends.find((friend) => friend.id == this.id);
-      return found!=undefined?found:{istyping:false,unseenCount:0,unseenMsg:"Tap to start chat",createdAt:new Date()};
+      return found!=undefined?found:{istyping:false,unseenCount:0,unseenMsg:"Tap here to start chat",createdAt:new Date()};
     },
     // GetLastMsgAndTime(){
     //   return 

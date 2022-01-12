@@ -74,7 +74,7 @@
           </button>
         </div>
          <div class="mt-md-5 mt-3">
-            <p class="font-15 text-gray">Not have an account ? <router-link to="/signup"> <span class="text-cyan mx-2"> Join Now. </span></router-link></p>
+            <p class="font-15 text-gray">Don't have an account ? <router-link to="/signup"> <span class="text-cyan mx-2"> Join Now. </span></router-link></p>
          </div>
       </div>
     </div>
