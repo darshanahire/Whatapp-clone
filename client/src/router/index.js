@@ -29,7 +29,7 @@ const routes = [
     },
     {
         path: '/signup',
-        name: "SignUp",
+        name: 'SignUp',
         meta: {
             ShowSignUpAndWelcome: true,
             onlySignup:true
@@ -37,7 +37,7 @@ const routes = [
     },
     {
         path: '/login',
-        name: "Login",
+        name: 'Login',
         meta: {
             ShowLoginAndWelcome: true,
             showOnlyLogin:true
