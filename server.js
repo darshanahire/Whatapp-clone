@@ -17,6 +17,7 @@ app.use(express.json());
 
 
 const port = process.env.PORT || 5000;
+const host = '0.0.0.0';
 
 require("dotenv").config();
 require("./db/conn")
@@ -109,6 +110,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
 })
 
-server.listen(port, () => {
+server.listen(port,host, () => {
     console.log("server listion on port : ", port);
 })
