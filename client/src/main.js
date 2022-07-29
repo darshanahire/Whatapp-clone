@@ -2,7 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from "./store";
+import VueCryptojs from 'vue-cryptojs'
 
+Vue.use(VueCryptojs)
 Vue.config.productionTip = false
 import dotenv from 'dotenv'
 Vue.use(EmojiPicker)

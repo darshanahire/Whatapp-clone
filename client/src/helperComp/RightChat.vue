@@ -2,7 +2,7 @@
   <div class="rightChatParent px-3">
     <div v-if="prevSender!=currSender" class="tailOutIcon"></div>
     <div class="rightChat">
-      <p class="msg">{{ msg }}</p>
+      <p class="msg">{{ decryptedText }}</p>
       <div class="chatTime">
         <p>
           <span v-if="time">{{ time | moment("h:mm a") }}</span>
@@ -26,10 +26,14 @@ props:{
     prevSender:String,
     currSender:String
 
-},  mounted(){
-// console.log("prev",this.prevSender);
-// console.log("me",this.prevSender);
-
+},
+data(){
+  return{
+    decryptedText:""
+    }
+},
+created(){
+  this.decryptedText = this.$CryptoJS.AES.decrypt(this.msg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
 }
 }
 </script>

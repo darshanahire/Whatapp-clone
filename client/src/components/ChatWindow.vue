@@ -3,18 +3,42 @@
     <div class="userTopData">
       <div class="row w-100 align-items-center">
         <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
-          <i class="fas fa-arrow-left fa-lg mx-2 mobile iconcolor font-20 gobackArrow" @click="goback"></i>
+          <i
+            class="
+              fas
+              fa-arrow-left fa-lg
+              mx-2
+              mobile
+              iconcolor
+              font-20
+              gobackArrow
+            "
+            @click="goback"
+          ></i>
           <ProfileImg :dp="user.dp" />
         </div>
         <div class="col-6 col-md-8 text-start">
           <h6 class="m-0">{{ user.name }}</h6>
           <!-- <p class="m-0 font-14">Click here to group info</p> -->
           <!-- found!=undefined?found:{istyping:false,unseenCount:0} -->
-          <p class="m-0 font-14" v-if="IsOnlineNow == undefined">
-            last seen today at {{ user.lastSeen | moment("h:mm a") }}
+          <p
+            class="m-0 font-14"
+            v-if="
+              IsOnlineNow == undefined &&
+              new Date() - new Date(user.lastSeen.toString()) > 86400000
+            "
+          >
+            last seen {{ user.lastSeen | moment("Do MMM YYYY") }} at
+            {{ user.lastSeen | moment("h:mm a") }}
           </p>
-          <p class="m-0 font-14" v-else-if="myfriends != undefined">
+          <p
+            class="m-0 font-14"
+            v-else-if="IsOnlineNow && myfriends != undefined"
+          >
             {{ myfriends.istyping ? "typing..." : "online" }}
+          </p>
+          <p class="m-0 font-14" v-else>
+            last seen at {{ user.lastSeen | moment("from", "now") }}
           </p>
         </div>
         <div class="col-3 col-md-3 text-end">
@@ -27,7 +51,7 @@
       <!-- <img class="" src="@/assets/chatbg.jpg" alt=""> -->
       <div class="dayDiv mt-2">TODAY</div>
       <div class="topEncrpMsg">
-        <i class="fas fa-lock fa-xs mx-2"></i>
+        <i class="fas fa-lock fa-xs mx-2 wt-900"></i>
         Messages are end-to-end encrypted. No one outside of this chat, not even
         WhatsApp, can read or listen to them. Click to learn more.
       </div>
@@ -67,14 +91,14 @@
           <emoji-picker class="col-6" @emoji="append" :search="search">
             <div slot="emoji-picker" slot-scope="{ emojis, insert }">
               <div class="emoji-picker px-3">
-                <div class="emoji-picker__search pb-3">
+                <!-- <div class="emoji-picker__search pb-3">
                   <input
                     type="text"
                     class="InputBar px-3"
                     placeholder="Search Emoji"
                     v-model="search"
                   />
-                </div>
+                </div> -->
                 <div class="emojiParent">
                   <div v-for="(emojiGroup, category) in emojis" :key="category">
                     <h5>{{ category }}</h5>
@@ -106,6 +130,7 @@
             type="text"
             class="InputBar px-3"
             placeholder="Type a message"
+            v-on:keyup.enter="sendMsg"
             v-model="msgInput"
             @input="setTyping"
           />
@@ -159,6 +184,8 @@ export default {
         });
     }
     this.$socket.client.on("getMessage", (data) => {
+      var audio = new Audio(require('@/assets/music/bip.mp3'));
+      audio.play();
       this.socketMsg = data.text;
       if (this.$route.path != `/user/${this.you}`) {
         // this.$store.dispatch("upadateSeenMsgs", {id:data.senderId,text:data.text});
@@ -180,7 +207,7 @@ export default {
   },
   updated() {
     // console.log(this.$store.state.friendsAllData);
-    this.$refs.Ref.scrollIntoView({ behavior: "smooth" ,block: "end"});
+    this.$refs.Ref.scrollIntoView({ behavior: "smooth", block: "end" });
   },
   created() {
     // this.$socket.client = io("ws://localhost:8900");
@@ -245,18 +272,19 @@ export default {
     sendMsg() {
       // console.log(this.msgInput);
       if (this.msgInput !== "" && this.msgInput !== null && this.me != null) {
-        let tempMsg = this.msgInput;
+        // let encryptedMsg = this.msgInput;
+        const encryptedMsg = this.$CryptoJS.AES.encrypt(this.msgInput,process.env.VUE_APP_SECRETE_KEY).toString()
         this.msgInput = "";
         this.$socket.client.emit("sendMessage", {
           conversationId: this.conversationId,
           senderId: this.me,
           receiverId: this.you,
-          text: tempMsg,
+          text: encryptedMsg,
         });
         const payload = {
           conversationId: this.conversationId,
           sender: this.me,
-          text: tempMsg,
+          text: encryptedMsg,
         };
         http
           .sendMsg(payload)
@@ -328,7 +356,7 @@ export default {
 };
 </script>
 <style>
-.gobackArrow{
+.gobackArrow {
   margin-right: 10px !important ;
 }
 .fa-paperclip {
@@ -478,5 +506,8 @@ export default {
 .emoji-picker .emojis span:hover {
   background: #ececec;
   cursor: pointer;
+}
+.wt-900{
+  font-weight: 900;
 }
 </style>

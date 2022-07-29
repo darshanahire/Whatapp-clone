@@ -34,7 +34,8 @@ export default {
   },
   created(){
     // console.log(this.user);
-    
+      this.decryptedText = this.$CryptoJS.AES.decrypt(this.msg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
+
   },
   components: {
     ProfileImg,
@@ -43,6 +44,9 @@ export default {
     myfriends(){
       let friends=this.$store.getters.friendsAllData;
       let found = friends.find((friend) => friend.id == this.id);
+      // if(found!=undefined) console.log(found.unseenMsg)
+      if(found!=undefined) found.unseenMsg = this.$CryptoJS.AES.decrypt(found.unseenMsg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
+
       return found!=undefined?found:{istyping:false,unseenCount:0,unseenMsg:"Tap here to start chat",createdAt:new Date()};
     },
     // GetLastMsgAndTime(){

@@ -69,5 +69,6 @@ hr{
 }
 .fas{
   color: #929292;
+  font-weight: 500;
 }
 </style>

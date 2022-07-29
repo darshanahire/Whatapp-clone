@@ -3,7 +3,7 @@
     <div v-if="prevSender != currSender" class="tailInIcon"></div>
     <div class="leftChat">
       <p class="msg">
-        {{ msg }}
+        {{ decryptedText }}
       </p>
       <div class="chatTime">
         <span v-if="time">{{ time | moment("h:mm a") }}</span>
@@ -24,9 +24,15 @@ export default {
     prevSender: String,
     currSender: String,
   },
-  components: {
-    // timeAgo,
-  },
+  data(){
+  return{
+    decryptedText:""
+    }
+},
+  created(){    
+    
+    this.decryptedText = this.$CryptoJS.AES.decrypt(this.msg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
+  }
 };
 </script>
 

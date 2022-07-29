@@ -22,7 +22,7 @@ export default new Vuex.Store({
                     // console.log(data);
                     data.map((friend) => {    
                         !state.friendsAllData.some(user => user.id === friend) &&
-                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"Tap here to start chat",createdAt:new Date() });
+                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"U2FsdGVkX1+UTqh81X1eGNvgQTHxzxM2tjcEtRIiEyxHnpgIO+j8HZ/e2NIghM2Y",createdAt:new Date() });
                     })                    
                     commit('SET_FRIENDS', data)
                 }).catch((err) => {
