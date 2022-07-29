@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import http from "../services/https.vue"
+var CryptoJS = require("crypto-js");
+
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -22,7 +24,7 @@ export default new Vuex.Store({
                     // console.log(data);
                     data.map((friend) => {    
                         !state.friendsAllData.some(user => user.id === friend) &&
-                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"U2FsdGVkX1+UTqh81X1eGNvgQTHxzxM2tjcEtRIiEyxHnpgIO+j8HZ/e2NIghM2Y",createdAt:new Date() });
+                        state.friendsAllData.push({ id: friend, unseenCount: 0 , istyping:false,unseenMsg:"Tap here to start chat",createdAt:new Date() });
                     })                    
                     commit('SET_FRIENDS', data)
                 }).catch((err) => {
@@ -65,10 +67,15 @@ export default new Vuex.Store({
             let tempFriends = state.friendsAllData;
             tempFriends.map(element=>{
                 if(element.id==msg.id){
+                    // temp=this.$CryptoJS.AES.decrypt(msg.text, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
+                    // console.log("Temp",temp);
+                    
                     if(element.unseenMsg!=msg.text){
                         element.unseenCount++;
+                        // element.unseenMsg = CryptoJS.AES.decrypt(msg.text,"darshan").toString(CryptoJS.enc.Utf8);
+                        // console.log(CryptoJS.AES.decrypt(msg.text,"darshan").toString(CryptoJS.enc.Utf8));
                     }
-                    element.unseenMsg=msg.text;
+                        element.unseenMsg=msg.text;
                 }
             })
             // console.log(tempFriends);

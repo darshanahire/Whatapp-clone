@@ -34,7 +34,7 @@ export default {
   },
   created(){
     // console.log(this.user);
-      this.decryptedText = this.$CryptoJS.AES.decrypt(this.msg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
+      // this.decryptedText = this.$CryptoJS.AES.decrypt("", process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
 
   },
   components: {
@@ -44,10 +44,13 @@ export default {
     myfriends(){
       let friends=this.$store.getters.friendsAllData;
       let found = friends.find((friend) => friend.id == this.id);
-      // if(found!=undefined) console.log(found.unseenMsg)
-      if(found!=undefined) found.unseenMsg = this.$CryptoJS.AES.decrypt(found.unseenMsg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
+      // if(found!=undefined) console.log(found.unseenMsg);
+      
+      if(found==undefined)found = {istyping:false,unseenCount:0,unseenMsg:"U2FsdGVkX1+UTqh81X1eGNvgQTHxzxM2tjcEtRIiEyxHnpgIO+j8HZ/e2NIghM2Y",createdAt:new Date()};
+      if(found.unseenMsg=="Tap here to start chat") return found;
+      found.unseenMsg = this.$CryptoJS.AES.decrypt(found.unseenMsg, process.env.VUE_APP_SECRETE_KEY).toString(this.$CryptoJS.enc.Utf8)
 
-      return found!=undefined?found:{istyping:false,unseenCount:0,unseenMsg:"Tap here to start chat",createdAt:new Date()};
+      return found;
     },
     // GetLastMsgAndTime(){
     //   return 

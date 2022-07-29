@@ -160,7 +160,7 @@ export default {
         axios.post("https://api.cloudinary.com/v1_1/darshanscloud/image/upload", formdata).then(async (res) => {
           let payload={...this.userData,dp:res.data.secure_url}
            await http.CreateAccount(payload).then(data=>{
-             console.log(data);
+            //  console.log(data);
              
            }
            );

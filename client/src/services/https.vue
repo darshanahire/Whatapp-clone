@@ -25,6 +25,7 @@ async getFriends (payload){
 },
 
 async getUser (id){
+    if(id==null) return null;
     const data = await axios.post(this.baseUrl+'/getUserdata',{id});  
     return data.data;
 },
