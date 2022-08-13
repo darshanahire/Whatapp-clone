@@ -10,7 +10,7 @@ An End To End Encrypted messenger application created with VueJs and Socket.io.
 
 
 
-## Features App
+## Features of App
 Following are the important fetures of App : 
 <ul>
 <li>Send Private Messages</li>
