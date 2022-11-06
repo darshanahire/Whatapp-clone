@@ -24,12 +24,15 @@
           <p
             class="m-0 font-14"
             v-if="
-              IsOnlineNow == undefined &&
+              user.lastSeen && IsOnlineNow == undefined &&
               new Date() - new Date(user.lastSeen.toString()) > 86400000
             "
           >
-            last seen {{ user.lastSeen | moment("Do MMM YYYY") }} at
-            {{ user.lastSeen | moment("h:mm a") }}
+            <span class="desktop"> seen {{ user.lastSeen | moment("Do MMM YYYY") }} at
+            {{ user.lastSeen | moment("h:mm a") }}</span>
+
+            <span class="mobile">last seen at {{ user.lastSeen | moment("Do MMM YY") }}</span>
+            <!-- {{ user.lastSeen | moment("h:mm a") }} -->
           </p>
           <p
             class="m-0 font-14"
