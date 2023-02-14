@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`/user/${id}`">
-    <div class="singleGrp row mx-0">
+  <div class="singleGrp row mx-0">
       <hr class="hr" />
       <ProfileImg  class="col-2 m-auto" :dp="user.dp" />
       <div class="col-8 d-flex flex-column justify-content-center align-items-start">
@@ -74,7 +74,13 @@ export default {
 }
 .singleGrp {
   height: 70px;
-  /* background: #ededed; */
+  /* background: #f0f2f5; */
+}
+.singleGrp_active {
+  background-color:#f0f2f5 ;
+}
+.singleGrp:hover{
+  background-color:#f0f2f5 ;
 }
 .font-12 {
   font-size: 12px;

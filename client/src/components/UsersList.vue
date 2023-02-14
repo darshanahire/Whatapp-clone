@@ -6,8 +6,12 @@
 <!-- <p class="px-3 d-md-none">{{user!=null?user.name:''}}</p> -->
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
-        <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
-        <i class="fas fa-comment-alt fa-lg mx-3 iconcolor"></i>
+        <img title="Communities" class="pointer mx-3" style="height:30px" src="@/assets/community2.png" alt="img1">
+        <img title="Status" class="pointer mx-3" style="height:25px" src="@/assets/status2.png" alt="img1">
+        <img title="New chat" class="pointer mx-3" style="height:25px" src="@/assets/new chat2.png" alt="img1">
+        <!-- <img class="mx-2" src="@/assets/search.png" alt="img1"> -->
+        <!-- <i class="fas fa-circle-notch fa-lg mx-3 iconcolor"></i>
+        <i class="fas fa-comment-alt fa-lg mx-3 iconcolor"></i> -->
         <i class="fas fa-ellipsis-v fa-lg mx-3 iconcolor pointer" @click="logout" title="Logout"></i>
       </div>
     </div>
@@ -25,8 +29,9 @@
       </div>
     </div>
     <div class="searchparent font-14 searchBarparent">
-      <div class="searchChild searchBarHeight">
-        <i class="fas fa-search mx-3 colorDark"></i>
+      <div class=" mx-2 searchChild searchBarHeight">
+        <!-- <i class="fas fa-search mx-3 colorDark"></i> -->
+           <img class="mx-2" src="@/assets/search2.png" alt="" height="20" />
         <!-- <input type="text" class="searchBar" /> -->
         <input
           type="text"
@@ -34,8 +39,9 @@
           placeholder="Search or start new chat"
         />
       </div>
+         <img title="Unread chat filter" class="mr-2 pointer" src="@/assets/sort.png" alt="" height="23" />
     </div>
-    <div class="lists mt-1">
+    <div class="lists">
       <hr class="hr" />
       <span v-for="(user, id) in AllUsers" :key="id">
         <SingleGroup
@@ -124,7 +130,7 @@ a {
 }
 .userData {
   height: 60px;
-  background: #ededed;
+  background: #f0f2f5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,17 +152,19 @@ a {
   border-radius: 50%;
 }
 .searchparent {
-  height: 45px;
-  background: #f6f6f6;
+  height: 48px;
+  /* background: #f6f6f6; */
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .searchChild {
-  height: 34px;
+  height: 35px;
   width: 95%;
-  background: #ffff;
-  border-radius: 20px;
+  /* background: #ffff; */
+  background: #f0f2f5;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,10 +172,10 @@ a {
 .searchBar {
   outline: none;
   border: none;
-  border-radius: 20px;
-  height: 34px;
+  border-radius: 10px;
+  height: 35px;
   width: 95%;
-  background: #ffff;
+  background: #f0f2f5;
   font-size: 14px;
 }
 .lists {
@@ -189,5 +197,8 @@ a {
 }
 .colorDark {
   color: #535353;
+}
+.mr-2{
+  margin-right: 10px ;
 }
 </style>

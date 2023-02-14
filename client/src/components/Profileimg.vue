@@ -2,7 +2,7 @@
   <div class="profile">
 
       <img v-if="dp!=undefined" class="profilePict" :src=dp alt="">
-      <img v-else class="profilePict" src="@/assets/avatar3.jpg" alt="">
+      <img v-else class="profilePict" src="@/assets/avatar3.png" alt="">
   </div>
 </template>
 

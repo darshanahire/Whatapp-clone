@@ -5,9 +5,8 @@
       <p class="msg">{{ decryptedText }}</p>
       <div class="chatTime">
         <p>
-          <span v-if="time">{{ time | moment("h:mm a") }}</span>
-          <span v-else>{{ new Date() | moment("h:mm a") }}</span>
-          <img class="tick" src="@/assets/bluetick3.png" alt="" height="10" />
+          <span v-if="time">{{ time | moment("h:mm a") }} <img class="tick" src="@/assets/seentick.png" alt="" height="10" /></span>
+          <span v-else>{{ new Date() | moment("h:mm a") }} <img class="tick" src="@/assets/unseentick.png" alt="" height="10" /></span>
         </p>
       </div>
     </div>
@@ -52,7 +51,7 @@ created(){
   max-width: 50%;
   padding: 8px 8px 3px;
   border-radius: 8px;
-  background: #dcf8c6;
+  background: #d9fdd3;
   text-align: start;
   margin: 6px 0;
   font-size: 14px;

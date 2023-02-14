@@ -24,7 +24,7 @@
             <img
               id="output"
               class="dp"
-              src="@/assets/avatar3.jpg"
+              src="@/assets/avatar3.png"
               alt="img1"
               width="170"
             />
@@ -203,7 +203,7 @@ input {
   background: #00bfa5;
 }
 .ProfileDiv {
-  background: #ededed;
+  background: #f0f2f5;
   height: 100%;
 }
 .profilePhotoSelector {

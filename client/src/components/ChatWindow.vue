@@ -1,6 +1,6 @@
 <template >
   <div class="chatwindowparent chatWindowWidth">
-    <div class="userTopData">
+    <div class="userTopData" style="border-left:2px solid rgb(203 207 210)">
       <div class="row w-100 align-items-center">
         <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
           <i
@@ -144,7 +144,8 @@
               v-if="Selftypingd"
               class="fas fa-paper-plane fa-lg text-dark mx-2 d-flex"
             ></i> -->
-            <i class="fas fa-paper-plane fa-lg iconcolor mx-2 d-flex"></i>
+            <img class="tick" src="@/assets/send.png" alt="" height="25" />
+            <!-- <i class="fas fa-paper-plane fa-lg iconcolor mx-2 d-flex"></i> -->
             <!-- <i v-else class="fas fa-microphone fa-lg text-dark mx-3"></i> -->
           </button>
         </div>
@@ -378,7 +379,7 @@ export default {
 }
 .userTopData {
   height: 60px;
-  background: #ededed;
+  background: #f0f2f5;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -394,12 +395,12 @@ export default {
   justify-content: center;
   align-items: center;
   height: 60px;
-  background: #ededed;
+  background: #f0f2f5;
 }
 .InputBar {
   outline: none;
   border: none;
-  border-radius: 20px;
+  border-radius: 10px;
   height: 40px;
   width: 100%;
   background: #ffff;

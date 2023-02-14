@@ -88,7 +88,8 @@ export default {
 .mainWindow {
   display: flex;
   z-index: 100;
-  width: 90.8%;
+  /* width: 90.8%; */
+  width: 1492px;
   background: #f8f9fa;
   margin-top: 19px;
   height: 95%;

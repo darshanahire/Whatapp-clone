@@ -66,6 +66,7 @@ hr{
 .lightgreenText{
   font-weight: bolder;
   color: #4adf83;
+  /* color: #1fa855; */
 }
 .fas{
   color: #929292;
