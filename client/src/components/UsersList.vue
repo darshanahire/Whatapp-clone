@@ -41,8 +41,8 @@
       </div>
          <img title="Unread chat filter" class="mr-2 pointer" src="@/assets/sort.png" alt="" height="23" />
     </div>
+    <hr class="hr" />
     <div class="lists">
-      <hr class="hr" />
       <span v-for="(user, id) in AllUsers" :key="id">
         <SingleGroup
           v-if="user._id !== me"

@@ -105,7 +105,10 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .container {
-    width: 90% !important;
+    width: 100% !important;
+  }
+  .mainWindow {
+    width: 92% !important;
   }
   .desktop {
     display: none;
@@ -130,10 +133,10 @@ export default {
     height: 90% !important;
   }
   .searchBarHeight {
-    height: 45px !important;
+    height: 42px !important;
   }
   .searchBarparent {
-    margin: 10px auto;
+    height: 55px;
   }
   .ppInfo {
     font-size: 15px;
