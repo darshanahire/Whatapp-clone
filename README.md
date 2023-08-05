@@ -14,7 +14,7 @@ An End To End Encrypted messenger application created with VueJs and Socket.io.
 Following are the important fetures of App : 
 <ul>
 <li>Send Private Messages</li>
-<li>Provieds End to End Encrypted Messaging</li>
+<li>Provieds End to End Encrypted Messaging Using AES(Advanced Encryption Standard) Alogorithm </li>
 <li>Add and Change Profile Picture</li>
 <li>Send Emojies</li>
 <li>Notification Sound added for new Messages</li>
@@ -36,28 +36,28 @@ Following are the important fetures of App :
 
 
 ## Screenshots
- <div align="center">
- <img  style="margin: 10px" width="40%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1646670380/bfn9vmntdtfie68goyhf.png" />
+ <div align="center" style="margin: 20px">
+ <img  style="margin: 10px" width="100%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1646670380/bfn9vmntdtfie68goyhf.png" />
  </div>
  <br><br>
-  <div align="center">
-   <img width="40%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1659851213/gtgaqe9rgskr1z2l1yi6.png" />
+  <div align="center" style="margin: 20px">
+   <img width="100%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1659851213/gtgaqe9rgskr1z2l1yi6.png" />
     </div>
     <br><br>
-    <div align="center">
-     <img width="40%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1659851280/yfuhxubvn4fck3tnbjfs.png" />
+    <div align="center" style="margin: 20px">
+     <img width="100%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1659851280/yfuhxubvn4fck3tnbjfs.png" />
       </div>
       <br><br>
-      <div align="center">
-    <img width="40%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1659851248/awdwl48kp59kib2gc4qu.png" />
+      <div align="center" style="margin: 20px">
+    <img width="100%" height="auto" src="https://res.cloudinary.com/darshanscloud/image/upload/v1659851248/awdwl48kp59kib2gc4qu.png" />
     </div>
 
 </p>
 
 
 ## Hosted Website URL 
-<h3 > https://whatsapp-clone-by-darshan.herokuapp.com/</h3>
+<h3 > https://whatsapp-clone-by-darshan.onrender.com/</h3>
 
 
 <br><br>
-© 2022 Darshan Ahire
+© 2023 Darshan Ahire
