@@ -32,9 +32,12 @@ router.post('/signup', async (req, res) => {
 router.post('/getUserdata', async (req, res) => {
     const _id  = req.body.id;
     try {
+        if (_id.match(/^[0-9a-fA-F]{24}$/) && _id !== null) {
         await User.findOne({ _id }).then((data) => {
             res.status(200).json(data);
         })
+    }
+    res.status(200).json();
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
