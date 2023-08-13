@@ -58,7 +58,6 @@ router.post('/getUsersFriends', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password ,dp} = req.body;
-
     try {
         await User.findOne({ email, password }).then(async(data) => {
             if (data !== null && data.password === password) {
