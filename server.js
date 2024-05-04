@@ -18,7 +18,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
-require("dotenv").config();
+// require("dotenv").config();
 require("./db/conn")
 
 

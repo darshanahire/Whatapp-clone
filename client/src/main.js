@@ -6,9 +6,9 @@ import VueCryptojs from 'vue-cryptojs'
 
 Vue.use(VueCryptojs)
 Vue.config.productionTip = false
-import dotenv from 'dotenv'
+// import dotenv from 'dotenv'
 Vue.use(EmojiPicker)
-dotenv.config()
+// dotenv.config()
 
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
