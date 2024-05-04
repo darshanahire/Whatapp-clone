@@ -202,10 +202,12 @@ input {
   background: #00bfa5;
 }
 .ProfileDiv {
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
+  background:var(--userTopDataBg);
 }
 .LoginProfileDiv{
-   background: #f0f2f5;
+   /* background: #f0f2f5; */
+   background:var(--userTopDataBg);
    width: 40%;
 }
 .profilePhotoSelector {

@@ -38,11 +38,11 @@
         <p class="mx-4 font-14 greenColor">Your Name</p>
         <div class="mx-4 mt-1">
           <input
-          class="font-14 text-dark"
+          class="font-14 text-dark addBorderBottom"
             type="text"
             v-model="userData.name"
             placeholder="Enter your Name"
-            @click="AddBorderBottom"
+           
           />
         </div>
         <!-- <p class="mx-4 mt-3">John Doe</p> -->
@@ -57,11 +57,11 @@
         <p class="mx-4 font-14 greenColor">About</p>
         <div class="mx-4 mt-1">
           <input
-           class="font-14 text-dark"
+           class="font-14 text-dark addBorderBottom"
             type="text"
             v-model="userData.about"
             placeholder="Enter About"
-            @click="AddBorderBottom"
+           
           />
         </div>
       </div>
@@ -69,11 +69,10 @@
         <p class="mx-4 font-14 greenColor">Email</p>
         <div class="mx-4 mt-1">
           <input
-           class="font-14 text-dark"
+           class="font-14 text-dark addBorderBottom"
             type="email"
             placeholder="Enter Email"
             v-model="userData.email"
-            @click="AddBorderBottom"
           />
         </div>
       </div>
@@ -81,11 +80,10 @@
         <p class="mx-4 font-14 greenColor">Password</p>
         <div class="mx-4 mt-1">
           <input
-           class="font-14 text-dark"
+           class="font-14 text-dark addBorderBottom"
             type="password"
             v-model="userData.password"
             placeholder="Enter Password"
-            @click="AddBorderBottom"
           />
         </div>
       </div>
@@ -147,9 +145,9 @@ export default {
     },
 
 
-    AddBorderBottom(e) {
-      e.target.style.borderBottom = "2px solid #00bfa5";
-    },
+    // AddBorderBottom(e) {
+    //   e.target.style.borderBottom = "2px solid #00bfa5";
+    // },
     async CreateAccount(){
       try{
           if(this.image!=null){
@@ -203,8 +201,9 @@ input {
   background: #00bfa5;
 }
 .ProfileDiv {
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
   height: 100%;
+  background:var(--userTopDataBg);
 }
 .profilePhotoSelector {
   height: 170px;
@@ -212,6 +211,9 @@ input {
   overflow: hidden;
   /* <img class="welcomeImg mx-auto" src="@/assets/avatar.jpg" alt="img1"> */
 
+}
+.addBorderBottom{
+  border-bottom : 2px solid #00bfa5;
 }
 .nameChange,
 .abouthange {

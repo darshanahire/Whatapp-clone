@@ -14,7 +14,8 @@ export default new Vuex.Store({
         onlineUsers:[],
         // usersMessages:[],
         selfTyping:false,
-        user:{}
+        user:{},
+        theme: JSON.parse(localStorage.getItem("wpTheme")),
     },
     actions: {
         async GetFriends({state,commit }) {
@@ -59,6 +60,9 @@ export default new Vuex.Store({
         },
         setSelfTyping({ commit },data) {   
             commit('SET_SELF_TYPING', data)
+        },
+        setTheme({ commit },data) {   
+            commit('SET_THEME', data)
         },
         // SetMessagesToStore({ commit }, data) {  
         //     commit('SET_MESSAGES', data)
@@ -132,6 +136,9 @@ export default new Vuex.Store({
         },
         SET_ONLINE_USERS(state,data){
         state.onlineUsers = data;
+        },
+        SET_THEME(state,data){
+        state.theme = data;
         }
     },
     modules: {},
@@ -142,5 +149,6 @@ export default new Vuex.Store({
         onlineUsers: state => state.onlineUsers,
         // usersMessages: state => state.usersMessages,
         selfTyping: state => state.selfTyping,
+        theme:state=> state.theme,
     }
 })

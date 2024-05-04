@@ -1,18 +1,10 @@
 <template >
   <div class="chatwindowparent chatWindowWidth">
-    <div class="userTopData" style="border-left:2px solid rgb(203 207 210)">
+    <div class="userTopData" style="border-left: 1px solid #b6b6b6">
       <div class="row w-100 align-items-center">
         <div class="col-3 col-md-1 d-flex align-items-center px-0 px-md-2">
           <i
-            class="
-              fas
-              fa-arrow-left fa-lg
-              mx-2
-              mobile
-              iconcolor
-              font-20
-              gobackArrow
-            "
+            class="fas fa-arrow-left fa-lg mx-2 mobile iconcolor font-20 gobackArrow"
             @click="goback"
           ></i>
           <ProfileImg :dp="user.dp" />
@@ -24,14 +16,19 @@
           <p
             class="m-0 font-14"
             v-if="
-              user.lastSeen && IsOnlineNow == undefined &&
+              user.lastSeen &&
+              IsOnlineNow == undefined &&
               new Date() - new Date(user.lastSeen.toString()) > 86400000
             "
           >
-            <span class="desktop"> seen {{ user.lastSeen | moment("Do MMM YYYY") }} at
-            {{ user.lastSeen | moment("h:mm a") }}</span>
+            <span class="desktop">
+              Last seen {{ user.lastSeen | moment("Do MMM YYYY") }} at
+              {{ user.lastSeen | moment("h:mm a") }}</span
+            >
 
-            <span class="mobile">last seen at {{ user.lastSeen | moment("Do MMM YY") }}</span>
+            <span class="mobile"
+              >last seen at {{ user.lastSeen | moment("Do MMM YY") }}</span
+            >
             <!-- {{ user.lastSeen | moment("h:mm a") }} -->
           </p>
           <p
@@ -51,7 +48,8 @@
       </div>
     </div>
     <div class="mainchatWindow scroll-y">
-      <!-- <img class="" src="@/assets/chatbg.jpg" alt=""> -->
+      <div class="mainchatWindowChild"></div>
+      <!-- <img class="" src="@/assets/chatBgNew.png" alt=""> -->
       <div class="dayDiv mt-2">TODAY</div>
       <div class="topEncrpMsg">
         <i class="fas fa-lock fa-xs mx-2 wt-900"></i>
@@ -188,7 +186,7 @@ export default {
         });
     }
     this.$socket.client.on("getMessage", (data) => {
-      var audio = new Audio(require('@/assets/music/bip.mp3'));
+      var audio = new Audio(require("@/assets/music/bip.mp3"));
       audio.play();
       this.socketMsg = data.text;
       if (this.$route.path != `/user/${this.you}`) {
@@ -277,7 +275,10 @@ export default {
       // console.log(this.msgInput);
       if (this.msgInput !== "" && this.msgInput !== null && this.me != null) {
         // let encryptedMsg = this.msgInput;
-        const encryptedMsg = this.$CryptoJS.AES.encrypt(this.msgInput,process.env.VUE_APP_SECRETE_KEY).toString()
+        const encryptedMsg = this.$CryptoJS.AES.encrypt(
+          this.msgInput,
+          process.env.VUE_APP_SECRETE_KEY
+        ).toString();
         this.msgInput = "";
         this.$socket.client.emit("sendMessage", {
           conversationId: this.conversationId,
@@ -306,6 +307,10 @@ export default {
       //  this.$store.dispatch("GetFriends");
       try {
         this.user = await http.getUser(id);
+        //console.log("user ",this.user);
+        if(!this.user) {
+          this.goback();
+        }
         const payload = {
           senderId: this.me,
           receiverId: this.$route.params.id,
@@ -371,6 +376,7 @@ export default {
   background: white;
 }
 .chatwindowparent {
+    background-color: var(--ternary);
   width: 70%;
   height: 100%;
   display: flex;
@@ -379,23 +385,39 @@ export default {
 }
 .userTopData {
   height: 60px;
-  background: #f0f2f5;
+  /* background-color: #f0f2f5; */
+  /* background-color: #111b21; */
+  background-color: var(--userTopDataBg);
+  color: var(--colorPrimary);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .mainchatWindow {
-  background: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
+  position: relative;
+  background-color: var(--chatBg);
+  /* background: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png); */
   /* background: url(http://localhost:8080/img/chatbg.8c989945.jpg); */
-  background-size: contain;
+  /* background: url(https://wallpapercave.com/wp/wp10254557.jpg); */
+  /* background: url(https://wallpapercave.com/wp/wp6988787.png); */
   height: 84%;
+}
+.mainchatWindowChild{
+  position: absolute;
+    background: url(https://res.cloudinary.com/darshanscloud/image/upload/v1714284606/k44cmfkso58neivwpanx.png);
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+  opacity: 0.3;
 }
 .chatingdatadiv {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60px;
-  background: #f0f2f5;
+  /* background-color: #f0f2f5; */
+  /* background-color:#2a3942 ; */
+  color: white;
 }
 .InputBar {
   outline: none;
@@ -403,7 +425,9 @@ export default {
   border-radius: 10px;
   height: 40px;
   width: 100%;
-  background: #ffff;
+  /* background: #ffff; */
+  background: var(--primary) !important;
+  color: var(--colorPrimary);
   font-size: 15px;
 }
 .w-85 {
@@ -430,11 +454,11 @@ export default {
   justify-content: center;
   align-items: center;
   width: 80px;
-  height: 30px;
+  padding: 3px;
   margin: auto;
   background: #e1f3fb;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 12px;
 }
 .fa-check-double {
   color: rgb(96, 200, 235);
@@ -444,6 +468,7 @@ export default {
 }
 .sendMsgBtn {
   border: none;
+  background: transparent;
 }
 .font-13 {
   font-size: 13px;
@@ -511,7 +536,7 @@ export default {
   background: #ececec;
   cursor: pointer;
 }
-.wt-900{
+.wt-900 {
   font-weight: 900;
 }
 </style>

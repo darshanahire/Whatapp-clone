@@ -49,10 +49,14 @@ const Removeuser = (socketId) => {
 const io = socketio(server, {
     cors: {
         origins: ["http://localhost:8080"],
+        // origins: [""],
     }
+    
 })
 
 io.on("connection", (socket) => {
+    // console.log(socket);
+    
     console.log("a user connected");
     socket.on('adduser', (userId) => {
         adduser(userId,socket.id);

@@ -6,7 +6,7 @@
       <div class="col-8 d-flex flex-column justify-content-center align-items-start">
       <h6>{{user.name}}</h6>
       <p class="m-0 font-14 lightgreenText" v-if="myfriends.istyping">typing...</p>
-      <p class="m-0 font-14 text-truncate w-100 text-start" v-else>{{myfriends.unseenMsg}} </p>
+      <p class="m-0 font-14 text-truncate w-100 text-start unseenMsgColor" v-else>{{myfriends.unseenMsg}} </p>
       <!-- <p class="m-0 font-14 text-truncate w-100 text-start" v-else>Hii, how are you this is personal chat click here to see that </p> -->
     </div>
       <div class="col-2 notificationsParent pt-2">
@@ -75,12 +75,16 @@ export default {
 .singleGrp {
   height: 70px;
   /* background: #f0f2f5; */
+  background-color: var(--primary);
+  color: var(--colorPrimary);
 }
 .singleGrp_active {
-  background-color:#f0f2f5 ;
+  background-color:var(--primary) ;
+
 }
 .singleGrp:hover{
-  background-color:#f0f2f5 ;
+  /* background-color:#f0f2f5 ; */
+  background-color:var(--primaryHover) ;
 }
 .font-12 {
   font-size: 12px;
@@ -105,6 +109,10 @@ export default {
   justify-content: center;
   align-items: center;
   color: #ffffff;
+}
+
+.unseenMsgColor{
+  color: #8696a0 !important;
 }
 </style>
 

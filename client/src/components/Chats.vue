@@ -1,6 +1,6 @@
 <template>
 <div class="img1Parent d-flex ">
-<img class="img1" src="@/assets/img4.png" alt="img1">
+<img class="img1" src="@/assets/img5.png" alt="img1">
 <div class="appInfo my-4 font-14">
   <h2 class="mb-3">WhatsApp Web</h2>
   <p>Send and receive messages without connecting your phone.</p>
@@ -26,13 +26,14 @@ name : "Chats",
 .img1Parent{
   width: 70%;
   flex-direction: column;
+  background:var(--img1ParBg);
 }
 .img1{
   margin: 0 auto;
   margin-top: 103px;
   overflow: hidden;
-  height: 260px;
-  width: 500px;
+  height: 300px;
+  width: 470px;
 }
 h2,.appInfo{
   font-weight: 200;
@@ -45,7 +46,8 @@ h2,.appInfo{
 .font-14{
   font-weight: 300;
   font-size: 14px;
-  color: #707070;
+  /* color: #707070; */
+  color: var(--colorSecondary);
 }
 p{
   margin: 0 !important;

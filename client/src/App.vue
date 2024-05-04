@@ -1,7 +1,8 @@
-<template>
-  <div id="app">
+<template >
+  <div id="app" :class="{'dark' :this.$store.getters.theme,'light': !this.$store.getters.theme}">
     <router-view />
-    <div class="bgGreen"></div>
+    <div class="bgGreen">
+    </div>
     <div class="desktop mainContainer" v-if="isMinMd">
       <div class="mainWindow">
         <UsersList
@@ -10,6 +11,7 @@
             $route.meta.ShowUserlistandChatWindow
           "
         />
+        
         <Chats v-if="$route.meta.ShowUserlistChats" />
         <SignUp v-if="$route.meta.ShowSignUpAndWelcome" />
         <Welcome v-if="false" />
@@ -32,6 +34,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -55,15 +58,67 @@ export default {
   computed: {
     getWidth() {
       return window.innerWidth;
-    },
+    }
+  },
+  data(){
+    //light -> true
+    return{
+      theme : this.$store.getters.theme,
+    };
   },
   mounted() {
     this.$store.dispatch("GetFriends");
   },
+  
 };
+
 </script>
 
+
+  <style>
+
+  /* dark  */
+    .dark {
+      --primary: #111b21;
+      --primaryHover : #2a3942;
+      --colorPrimary : #ffff;
+      --colorSecondary : #8696a0;
+      --secondary : #202c33;
+      --ternary : #0b141a;
+      --notFiBg : #3f5159;
+      --userTopDataBg : #111b21;
+      --img1ParBg : #111b21;
+      --chatBg : #1a242a;
+      --bgGreen : #0c1317;
+      --bgGreenHeight : 100%;
+      --userlistBorCol: ;
+      --constrast : #f0f2f5;
+    }
+
+    /* light  */
+
+    .light {
+      --primary: #ffff;
+      --primaryHover : #f0f2f5 ;
+      --colorPrimary : black;
+      --colorSecondary : #707070;
+      --secondary : #f0f2f5;
+      --ternary : #f0f2f5;
+      --notFiBg : #9de1fe;
+      --userTopDataBg : #f0f2f5;
+      --img1ParBg :#f8f9fa;
+      --chatBg : #e5ddd5;
+      --bgGreen : #009688;
+      --bgGreenHeight : 127px;
+      --userlistBorCol: #b6b6b6;
+      --constrast : black;
+    }
+  </style>
+
+
+
 <style>
+
 #app {
   font-family: "Nunito Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -71,13 +126,32 @@ export default {
   text-align: center;
   background: #d6dbd7 !important;
 }
+
+.bg-white{
+  background:var(--primary) !important;
+}
+.themeBtn{
+  color: var(--constrast);
+}
+input{
+  background: transparent !important;
+}
+
+.text-dark{
+    color: white !important;
+}
 .bgGreen {
-  height: 127px;
-  background-color: #009688;
+  /* height: 127px; */
+  /* background-color: #009688; */
+  /* height: 100%; */
+  height: var(--bgGreenHeight);
+  /* background-color: #0c1317; */
+  background: var(--bgGreen);
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
+
   /* z-index: -1; */
 }
 .mainContainer {

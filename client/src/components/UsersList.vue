@@ -6,6 +6,8 @@
 <!-- <p class="px-3 d-md-none">{{user!=null?user.name:''}}</p> -->
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
+        <input class="themeBtn pointer mt-1" type="button" value="ChangeTheme" @click="SwitchTheme">
+        <!-- <img title="change Theme" class="pointer mx-3" style="height:30px" src="@/assets/theme.png" alt="img1"> -->
         <img title="Communities" class="pointer mx-3" style="height:30px" src="@/assets/community2.png" alt="img1">
         <img title="Status" class="pointer mx-3" style="height:25px" src="@/assets/status2.png" alt="img1">
         <img title="New chat" class="pointer mx-3" style="height:25px" src="@/assets/new chat2.png" alt="img1">
@@ -23,7 +25,7 @@
           </div>
         </div>
         <div class="col-10 text-start">
-          <p class="m-0">Get notified of new messages</p>
+          <p class="m-0 colorPriSec">Get notified of new messages</p>
           <p class="font-14 m-0">Turn on desktop notifications</p>
         </div>
       </div>
@@ -70,15 +72,18 @@ export default {
     return {
       AllUsers: [],
       me: "",
-      user:{}
+      user:{},
+      theme: JSON.parse(localStorage.getItem("wpTheme")),
     };
   },
   async created() {
     this.AllUsers = await http.getAllUsers();
     this.me = localStorage.getItem("Wuser");
+    this.theme = JSON.parse(localStorage.getItem("wpTheme"))
     this.user = await http.getUser(this.me);  
     this.$store.dispatch("Setme", this.me);
     this.$store.dispatch("SetUser", this.user);
+    this.$store.dispatch("setTheme", this.theme);
     this.$store.dispatch("GetFriends");
     this.$socket.client.emit("adduser", this.me);
     this.$socket.client.on("getMessage", (data) => {
@@ -110,6 +115,12 @@ export default {
       localStorage.clear();
       this.$router.push("/login");
     },
+    SwitchTheme : function(){
+      this.theme = !this.theme;
+      localStorage.setItem('wpTheme', this.theme);
+      this.$store.dispatch("setTheme", this.theme);
+      
+    }
   },
 };
 </script>
@@ -126,11 +137,13 @@ a {
   overflow: hidden;
   width: 30%;
   height: 100%;
-  /* border-right: 1px solid rgb(214, 213, 213); */
+  border-right:1px solid var(--userlistBorCol);
 }
 .userData {
   height: 60px;
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
+  background: var(--userTopDataBg);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -138,9 +151,15 @@ a {
 .iconcolor {
   color: #51585c !important;
 }
+.colorPriSec{
+  color : var(--colorPrimary)
+}
 .notificationData {
   height: 90px;
-  background: #9de1fe;
+  /* background: #9de1fe; */
+  /* background: #5d727b; */
+  background: var(--notFiBg);
+  /* display: none; */
 }
 .desktopNotify {
   height: 45px;
@@ -154,7 +173,8 @@ a {
 .searchparent {
   height: 48px;
   /* background: #f6f6f6; */
-  background: white;
+  /* background: white; */
+    background: var(--primary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +183,8 @@ a {
   height: 35px;
   width: 95%;
   /* background: #ffff; */
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
+  background: var(--secondary);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -175,12 +196,14 @@ a {
   border-radius: 10px;
   height: 35px;
   width: 95%;
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
+   /* background: #202c33; */
+   background: var(--secondary);
   font-size: 14px;
 }
 .lists {
-  height: 75%;
-  background: white;
+  height: 100%;
+  background: var(--primary);
   overflow: scroll;
   padding-bottom: 20px;
 }
