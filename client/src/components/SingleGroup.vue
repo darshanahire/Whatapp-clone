@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`/user/${id}`">
-  <div class="singleGrp row mx-0">
+  <div class="singleGrp row mx-0" >
       <hr class="hr" />
       <ProfileImg  class="col-2 m-auto" :dp="user.dp" />
       <div class="col-8 d-flex flex-column justify-content-center align-items-start">
@@ -77,6 +77,7 @@ export default {
   /* background: #f0f2f5; */
   background-color: var(--primary);
   color: var(--colorPrimary);
+  min-width: 400px;
 }
 .singleGrp_active {
   background-color:var(--primary) ;

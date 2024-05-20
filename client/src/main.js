@@ -13,6 +13,7 @@ Vue.use(EmojiPicker)
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
 const socket = io('/');
+// const socket = io('ws://192.168.0.112:5000');
 // const socket = io('ws://localhost:5000');
 
 socket.emit("adduser", localStorage.getItem("Wuser"));

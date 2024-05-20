@@ -308,7 +308,7 @@ export default {
       try {
         this.user = await http.getUser(id);
         //console.log("user ",this.user);
-        if(!this.user) {
+        if (!this.user) {
           this.goback();
         }
         const payload = {
@@ -376,7 +376,7 @@ export default {
   background: white;
 }
 .chatwindowparent {
-    background-color: var(--ternary);
+  background-color: var(--ternary);
   width: 70%;
   height: 100%;
   display: flex;
@@ -385,6 +385,7 @@ export default {
 }
 .userTopData {
   height: 60px;
+  padding: 20px 0;
   /* background-color: #f0f2f5; */
   /* background-color: #111b21; */
   background-color: var(--userTopDataBg);
@@ -394,17 +395,17 @@ export default {
   align-items: center;
 }
 .mainchatWindow {
+  /* clip-path: inset(0 0 0 0); */
   position: relative;
   background-color: var(--chatBg);
-  /* background: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png); */
-  /* background: url(http://localhost:8080/img/chatbg.8c989945.jpg); */
-  /* background: url(https://wallpapercave.com/wp/wp10254557.jpg); */
-  /* background: url(https://wallpapercave.com/wp/wp6988787.png); */
-  height: 84%;
+  /* height: 100%; */
+  min-height: 82.5%;
 }
-.mainchatWindowChild{
+.mainchatWindowChild {
   position: absolute;
-    background: url(https://res.cloudinary.com/darshanscloud/image/upload/v1714284606/k44cmfkso58neivwpanx.png);
+  top: 0%;
+  /* background: url(https://res.cloudinary.com/darshanscloud/image/upload/v1714927612/pgy0ur3gr1lo3p2lkpbd.png); */
+  background: url(https://res.cloudinary.com/darshanscloud/image/upload/v1714925552/pzdb7q0mkwrrgttydnjw.png);
   background-size: contain;
   height: 100%;
   width: 100%;

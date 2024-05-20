@@ -18,7 +18,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 5000;
 
-// require("dotenv").config();
+require("dotenv").config();
 require("./db/conn")
 
 
@@ -57,10 +57,12 @@ const io = socketio(server, {
 io.on("connection", (socket) => {
     // console.log(socket);
     
-    console.log("a user connected");
     socket.on('adduser', (userId) => {
-        adduser(userId,socket.id);
-        io.emit('getusers',users)
+        console.log("a user connected");
+        if(userId){
+            adduser(userId,socket.id);
+            io.emit('getusers',users)
+        }
     })
 
     // send and get msg

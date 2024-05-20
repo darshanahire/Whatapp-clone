@@ -76,7 +76,10 @@ export default {
 
 
   <style>
-
+.root{
+  --bgd: #1a242a;
+  --bgl: #ffff;
+}
   /* dark  */
     .dark {
       --primary: #111b21;
@@ -118,13 +121,17 @@ export default {
 
 
 <style>
+body{
+  background-color: var(--chatBg);
+}
 
 #app {
   font-family: "Nunito Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background: #d6dbd7 !important;
+  height: 100vh;
+
 }
 
 .bg-white{
@@ -138,7 +145,7 @@ input{
 }
 
 .text-dark{
-    color: white !important;
+    color: var(--constrast) !important;
 }
 .bgGreen {
   /* height: 127px; */
@@ -157,7 +164,7 @@ input{
 .mainContainer {
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
 }
 .mainWindow {
   display: flex;
@@ -266,6 +273,7 @@ input{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color : var(--primary);
 }
 .leftChat,.rightChat{
   max-width:90% ;

@@ -143,6 +143,7 @@ a {
   height: 60px;
   /* background: #f0f2f5; */
   background: var(--userTopDataBg);
+  min-width: 400px;
 
   display: flex;
   justify-content: center;
@@ -159,6 +160,7 @@ a {
   /* background: #9de1fe; */
   /* background: #5d727b; */
   background: var(--notFiBg);
+  min-width: 400px;
   /* display: none; */
 }
 .desktopNotify {
@@ -205,7 +207,7 @@ a {
   height: 100%;
   background: var(--primary);
   overflow: scroll;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 ::-webkit-scrollbar {
   display: none;
