@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
     socket.on('disconnect', async function() {
         const user = getUserBySocketId(socket.id);
         Removeuser(socket.id)
-        if(user!=undefined ||user !=null){
+        if(user!=undefined && user !=null){
             const id=user.userId;
         await User.findByIdAndUpdate({_id:id},{lastSeen:new Date()}).then(()=>{
             console.log('user disconnected.');

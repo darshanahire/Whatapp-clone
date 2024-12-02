@@ -4,7 +4,7 @@ export default {
 name:"https",
 baseUrl: "",
 // baseUrl: "http://192.168.0.112:5000",
-// baseUrl: "http://localhost:5000",
+//baseUrl: "http://localhost:5000",
 
 async CreateAccount (UserData){
     const data = await axios.post(this.baseUrl+'/signup',UserData);        

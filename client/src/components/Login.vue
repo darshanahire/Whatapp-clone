@@ -111,8 +111,8 @@ export default {
   data() {
     return {
       userData: {
-        email: "",
-        password: "",
+        email: "johndoe3@gmail.com",
+        password: "12345",
         image: null,
       },
     };

@@ -4,7 +4,7 @@ const http = require("http");
 const cors = require("cors");
 const socketio = require("socket.io");
 
-const User=require("../models/User");
+const User=require("./models/User");
 const cookieParser = require("cookie-parser")
 app.use(cors());
 app.use(cookieParser());
@@ -19,12 +19,12 @@ app.use(express.json());
 const port = process.env.PORT || 5000;
 
 require("dotenv").config();
-require("../db/conn")
+require("./db/conn")
 
 
-const UserRouter = require("../routes/User");
-const ConversationRouter = require("../routes/conversation");
-const MessageRouter = require("../routes/messages");
+const UserRouter = require("./routes/User");
+const ConversationRouter = require("./routes/conversation");
+const MessageRouter = require("./routes/messages");
 
 const server = http.createServer(app);
 
@@ -49,14 +49,20 @@ const Removeuser = (socketId) => {
 const io = socketio(server, {
     cors: {
         origins: ["http://localhost:8080"],
+        // origins: [""],
     }
+    
 })
 
 io.on("connection", (socket) => {
-    console.log("a user connected");
+    // console.log(socket);
+    
     socket.on('adduser', (userId) => {
-        adduser(userId,socket.id);
-        io.emit('getusers',users)
+        console.log("a user connected");
+        if(userId){
+            adduser(userId,socket.id);
+            io.emit('getusers',users)
+        }
     })
 
     // send and get msg
@@ -89,7 +95,7 @@ io.on("connection", (socket) => {
     socket.on('disconnect', async function() {
         const user = getUserBySocketId(socket.id);
         Removeuser(socket.id)
-        if(user!=undefined ||user !=null){
+        if(user!=undefined && user !=null){
             const id=user.userId;
         await User.findByIdAndUpdate({_id:id},{lastSeen:new Date()}).then(()=>{
             console.log('user disconnected.');
@@ -102,11 +108,11 @@ io.on("connection", (socket) => {
 app.use(UserRouter, ConversationRouter);
 app.use(MessageRouter)
 
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static("client/dist"));
 const path = require("path");
-const { db } = require("../models/User");
+const { db } = require("./models/User");
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"))
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
 })
 
 server.listen(port, () => {
