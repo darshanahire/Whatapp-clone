@@ -176,6 +176,9 @@ input{
   height: 95%;
   box-shadow: 0px 0px 6px -2px;
 }
+  .chatingdatadiv {
+    margin: 5px 0px;
+  }
 @media screen and (min-width: 768px) {
   .desktop {
     display: flex;
@@ -185,11 +188,17 @@ input{
   }
 }
 @media screen and (max-width: 768px) {
+  .mainContainer {
+    height: auto !important;
+
+  }
   .container {
     width: 100% !important;
   }
   .mainWindow {
-    width: 92% !important;
+    width:92% !important;
+    height: 100% !important;
+    /* margin-bottom: 100px !important ; */
   }
   .desktop {
     display: none;
@@ -200,6 +209,9 @@ input{
   .mobileDevise {
     display: none !important;
   }
+  .img1Parent{
+    /* height: auto !important; */
+  }
   .welcomeWidow {
     display: none !important;
   }
@@ -209,9 +221,16 @@ input{
   .chatWindowWidth {
     width: 100%;
   }
+  .profilePhotoSelector{
+    height: 130px;
+    width: 130px;
+  }
+  .dp{
+  width: 130px
+}
   .mainWindow {
     display: block;
-    height: 90% !important;
+    /* height: 90% !important; */
   }
   .searchBarHeight {
     height: 42px !important;
@@ -224,10 +243,10 @@ input{
     margin-top: 90px !important;
   }
   .welcomeHeading {
-    font-size: 33px;
+    font-size: 25px;
   }
   .welcomeImg {
-    width: 300px;
+    width: 250px;
     margin: auto 0;
   }
   .agreeNContinueBtn {
@@ -253,6 +272,7 @@ input{
   }
   .chatingdatadiv {
     height: 70px;
+    margin: 5px 0px;
   }
   .InputBar {
     height: 45px;

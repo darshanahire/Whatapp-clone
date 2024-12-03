@@ -48,7 +48,8 @@ const Removeuser = (socketId) => {
 
 const io = socketio(server, {
     cors: {
-        origins: ["http://localhost:8080"],
+       // origins: ["http://localhost:8080"],
+       origins: ["http://192.168.31.34:8080"],
         // origins: [""],
     }
     

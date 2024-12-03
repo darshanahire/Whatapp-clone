@@ -92,6 +92,7 @@
             JOIN NOW
           </button>
         </div>
+        <div class="greenLine mt-auto mobile"></div>
     </div>
     </div>
     <div class="mobileDevise img1Parent d-flex ">

@@ -73,9 +73,10 @@
             CONTINUE
           </button>
         </div>
-         <div class="mt-md-5 mt-3">
+         <div class="mt-md-5 mt-3 my-5">
             <p class="font-15 text-gray">Don't have an account ? <router-link to="/signup"> <span class="text-cyan mx-2"> Join Now. </span></router-link></p>
          </div>
+          <div class="greenLine mt-auto mobile"></div>
       </div>
     </div>
     <div class="mobileDevise img1Parent d-flex ">

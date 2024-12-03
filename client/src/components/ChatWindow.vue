@@ -273,34 +273,43 @@ export default {
     },
     sendMsg() {
       // console.log(this.msgInput);
-      if (this.msgInput !== "" && this.msgInput !== null && this.me != null) {
-        // let encryptedMsg = this.msgInput;
-        const encryptedMsg = this.$CryptoJS.AES.encrypt(
-          this.msgInput,
-          process.env.VUE_APP_SECRETE_KEY
-        ).toString();
-        this.msgInput = "";
-        this.$socket.client.emit("sendMessage", {
-          conversationId: this.conversationId,
-          senderId: this.me,
-          receiverId: this.you,
-          text: encryptedMsg,
-        });
-        const payload = {
-          conversationId: this.conversationId,
-          sender: this.me,
-          text: encryptedMsg,
-        };
-        http
-          .sendMsg(payload)
-          .then(async () => {
-            this.Messages = [...this.Messages, payload];
-            // this.$store.dispatch("SetMessagesToStore",this.Messages);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      if (this.msgInput == "" || this.msgInput == null) {
+        if(this.me == null){
+        //alert("Please log first")
+        this.$router.push("/login");
+        return;
+        }
+        //in case of null empty msg
+        else return;
+        
       }
+      // let encryptedMsg = this.msgInput;
+      const encryptedMsg = this.$CryptoJS.AES.encrypt(
+        this.msgInput,
+        process.env.VUE_APP_SECRETE_KEY
+      ).toString();
+      this.msgInput = "";
+      this.$socket.client.emit("sendMessage", {
+        conversationId: this.conversationId,
+        senderId: this.me,
+        receiverId: this.you,
+        text: encryptedMsg,
+      });
+      const payload = {
+        conversationId: this.conversationId,
+        sender: this.me,
+        text: encryptedMsg,
+      };
+      http
+        .sendMsg(payload)
+        .then(async () => {
+          this.Messages = [...this.Messages, payload];
+          // this.$store.dispatch("SetMessagesToStore",this.Messages);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
     },
     async changeUser(id) {
       this.Messages = [];

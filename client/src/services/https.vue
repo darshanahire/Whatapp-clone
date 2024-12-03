@@ -2,8 +2,8 @@
 import axios from 'axios';
 export default {
 name:"https",
-baseUrl: "",
-// baseUrl: "http://192.168.0.112:5000",
+ baseUrl: "",
+//baseUrl: "http://192.168.31.34:5000",
 //baseUrl: "http://localhost:5000",
 
 async CreateAccount (UserData){

@@ -7,6 +7,7 @@
       </div>
       <div class="col-8 d-flex justify-content-end align-items-center font-15">
         <input class="themeBtn pointer mt-1" type="button" value="ChangeTheme" @click="SwitchTheme">
+        <!-- <input class="themeBtn pointer mt-1 mobile" type="button" value="Theme" @click="SwitchTheme"> -->
         <!-- <img title="change Theme" class="pointer mx-3" style="height:30px" src="@/assets/theme.png" alt="img1"> -->
         <img title="Communities" class="pointer mx-3" style="height:30px" src="@/assets/community2.png" alt="img1">
         <img title="Status" class="pointer mx-3" style="height:25px" src="@/assets/status2.png" alt="img1">
